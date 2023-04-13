@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 and then changed manually -->
 <interface>
-  <object class="GtkWindow" id="DialogBasic">
+  <object class="GtkWindow" id="WindowBasic">
     <property name="can_focus">True</property>
     <property name="title" translatable="yes">Basic Builder example</property>
     <property name="default_width">250</property>
@@ -31,8 +31,8 @@
             <property name="can_focus">True</property>
             <property name="orientation">horizontal</property>
             <child>
-              <object class="GtkButton" id="quit_button">
-                <property name="label">_Quit</property>
+              <object class="GtkButton" id="thread_button">
+                <property name="label">_Run Script</property>
                 <property name="hexpand">True</property>
                 <property name="halign">end</property>
                 <property name="margin_end">5</property>
