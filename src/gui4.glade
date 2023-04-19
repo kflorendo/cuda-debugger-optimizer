@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <object class="GtkWindow" id="window">
+    <property name="title" translatable="1">CUDA Debugger and Optimizer</property>
+    <property name="child">
+      <object class="GtkFixed" id="fixed1">
+        <property name="width-request">500</property>
+        <property name="height-request">400</property>
+        <child>
+          <object class="GtkStack" id="stack1">
+            <layout>
+              <property name="transform">translate(10, 40)</property>
+            </layout>
+            <property name="width-request">480</property>
+            <property name="height-request">350</property>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">page0</property>
+                <property name="title" translatable="1">Configure</property>
+                <property name="child">
+                  <object class="GtkFixed" id="fixedpage1">
+                    <property name="name">fixedpage1</property>
+                    <child>
+                      <object class="GtkEntry" id="makeentry">
+                        <layout>
+                          <property name="transform">translate(10, 24)</property>
+                        </layout>
+                        <property name="width-request">460</property>
+                        <property name="height-request">34</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="makelabel">
+                        <layout>
+                          <property name="transform">translate(10, 10)</property>
+                        </layout>
+                        <property name="label" translatable="1">Makefile Directory</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="runlabel">
+                        <layout>
+                          <property name="transform">translate(10, 70)</property>
+                        </layout>
+                        <property name="label" translatable="1">Run Command</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="runentry">
+                        <layout>
+                          <property name="transform">translate(10, 84)</property>
+                        </layout>
+                        <property name="width-request">460</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="makelabel1">
+                        <layout>
+                          <property name="transform">translate(10, 130)</property>
+                        </layout>
+                        <property name="label" translatable="1">Path to .cu File</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="runentry1">
+                        <layout>
+                          <property name="transform">translate(10, 144)</property>
+                        </layout>
+                        <property name="width-request">460</property>
+                        <property name="focusable">1</property>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">page1</property>
+                <property name="title" translatable="1">Debug</property>
+                <property name="child">
+                  <object class="GtkFixed" id="fixedpage2">
+                    <child>
+                      <object class="GtkFixed" id="thread_output_fixed">
+                        <layout>
+                          <property name="transform">translate(10, 10)</property>
+                        </layout>
+                        <property name="width-request">100</property>
+                        <property name="height-request">80</property>
+                        <child>
+                          <object class="GtkButton" id="thread_output_button">
+                            <layout>
+                              <property name="transform">translate(0, 54)</property>
+                            </layout>
+                            <property name="label" translatable="1">Get Thread Output</property>
+                            <property name="width-request">126</property>
+                            <property name="height-request">34</property>
+                            <property name="focusable">1</property>
+                            <property name="receives-default">1</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_output_line_entry">
+                            <layout>
+                              <property name="transform">translate(0, 14)</property>
+                            </layout>
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="focusable">1</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_output_line_entry_label">
+                            <property name="label" translatable="1">Line</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_output_value_entry">
+                            <layout>
+                              <property name="transform">translate(200, 14)</property>
+                            </layout>
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="focusable">1</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_output_value_entry_label">
+                            <layout>
+                              <property name="transform">translate(200, 0)</property>
+                            </layout>
+                            <property name="label" translatable="1">Value</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkFixed" id="thread_overwrite_fixed">
+                        <layout>
+                          <property name="transform">translate(10, 120)</property>
+                        </layout>
+                        <property name="width-request">100</property>
+                        <property name="height-request">80</property>
+                        <child>
+                          <object class="GtkButton" id="thread_overwrite_button1">
+                            <layout>
+                              <property name="transform">translate(0, 54)</property>
+                            </layout>
+                            <property name="label" translatable="1">Detect Thread Overwrite</property>
+                            <property name="focusable">1</property>
+                            <property name="receives-default">1</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_overwrite_line_start_entry">
+                            <layout>
+                              <property name="transform">translate(0, 14)</property>
+                            </layout>
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="focusable">1</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_overwrite_line_start_entry_label">
+                            <property name="label" translatable="1">Line Start</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_overwrite_line_end_entry_label">
+                            <layout>
+                              <property name="transform">translate(200, 0)</property>
+                            </layout>
+                            <property name="label" translatable="1">Line End</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_overwrite_line_end_entry">
+                            <layout>
+                              <property name="transform">translate(200, 14)</property>
+                            </layout>
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="focusable">1</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage">
+                <property name="name">page2</property>
+                <property name="title" translatable="1">Optimize</property>
+                <property name="child">
+                  <object class="GtkFixed" id="fixedpage3"/>
+                </property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkStackSwitcher" id="switch1">
+            <layout>
+              <property name="transform">translate(10, 10)</property>
+            </layout>
+            <property name="width-request">364</property>
+            <property name="height-request">34</property>
+            <property name="stack">stack1</property>
+          </object>
+        </child>
+      </object>
+    </property>
+  </object>
+</interface>

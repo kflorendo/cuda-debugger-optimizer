@@ -8,7 +8,7 @@ namespace
 Gtk::Window* pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
 
-void on_button_clicked()
+void on_thread_output_button_clicked()
 {
   system("src/scripts/threads.sh");
 }
@@ -20,7 +20,7 @@ void on_app_activate()
   auto refBuilder = Gtk::Builder::create();
   try
   {
-    refBuilder->add_from_file("src/basic.glade");
+    refBuilder->add_from_file("src/gui4.glade");
   }
   catch(const Glib::FileError& ex)
   {
@@ -39,7 +39,7 @@ void on_app_activate()
   }
 
   // Get the GtkBuilder-instantiated window:
-  pWindow = refBuilder->get_widget<Gtk::Window>("WindowBasic");
+  pWindow = refBuilder->get_widget<Gtk::Window>("window");
   if (!pWindow)
   {
     std::cerr << "Could not get the window" << std::endl;
@@ -47,9 +47,9 @@ void on_app_activate()
   }
 
   // Get the GtkBuilder-instantiated button, and connect a signal handler:
-  auto pButton = refBuilder->get_widget<Gtk::Button>("thread_button");
+  auto pButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
   if (pButton)
-    pButton->signal_clicked().connect([] () { on_button_clicked(); });
+    pButton->signal_clicked().connect([] () { on_thread_output_button_clicked(); });
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
