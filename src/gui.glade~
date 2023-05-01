@@ -107,7 +107,7 @@
                     <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="thread_output_button">
-                        <property name="label" translatable="yes">get thread output</property>
+                        <property name="label" translatable="yes">Get Thread Output</property>
                         <property name="width-request">126</property>
                         <property name="height-request">34</property>
                         <property name="visible">True</property>
@@ -172,7 +172,7 @@
                     <property name="can-focus">False</property>
                     <child>
                       <object class="GtkButton" id="thread_overwrite_button1">
-                        <property name="label" translatable="yes">detect thread overwrite</property>
+                        <property name="label" translatable="yes">Detect Thread Overwrite</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">True</property>
