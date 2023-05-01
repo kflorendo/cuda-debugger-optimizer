@@ -109,7 +109,7 @@
                             <property name="name">Thread Output</property>
                             <property name="title" translatable="1">Thread Output</property>
                             <property name="child">
-                              <object class="GtkFixed" id="thread_output_fixed1">
+                              <object class="GtkFixed" id="thread_output_fixed">
                                 <property name="width-request">32</property>
                                 <property name="height-request">32</property>
                                 <child>
@@ -157,6 +157,30 @@
                                     <property name="label" translatable="1">Value</property>
                                   </object>
                                 </child>
+                                <child>
+                                  <object class="GtkButton" id="set_thread_output_value_button">
+                                    <layout>
+                                      <property name="transform">translate(174, 74)</property>
+                                    </layout>
+                                    <property name="label" translatable="1">Set to Selection</property>
+                                    <property name="width-request">119</property>
+                                    <property name="height-request">34</property>
+                                    <property name="focusable">1</property>
+                                    <property name="receives-default">1</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="set_thread_output_line_button">
+                                    <layout>
+                                      <property name="transform">translate(174, 15)</property>
+                                    </layout>
+                                    <property name="label" translatable="1">Set to Selection</property>
+                                    <property name="width-request">119</property>
+                                    <property name="height-request">34</property>
+                                    <property name="focusable">1</property>
+                                    <property name="receives-default">1</property>
+                                  </object>
+                                </child>
                               </object>
                             </property>
                           </object>
@@ -166,7 +190,7 @@
                             <property name="name">Thread Overwrite</property>
                             <property name="title" translatable="1">Thread Overwrite</property>
                             <property name="child">
-                              <object class="GtkFixed" id="thread_overwrite_fixed1">
+                              <object class="GtkFixed" id="thread_overwrite_fixed">
                                 <property name="width-request">32</property>
                                 <property name="height-request">32</property>
                                 <child>
@@ -231,17 +255,16 @@
                     <child>
                       <object class="GtkScrolledWindow">
                         <layout>
-                          <property name="transform">translate(500, 10)</property>
+                          <property name="transform">translate(620, 10)</property>
                         </layout>
-                        <property name="width-request">100</property>
-                        <property name="height-request">80</property>
+                        <property name="width-request">576</property>
+                        <property name="height-request">755</property>
                         <property name="focusable">1</property>
                         <property name="child">
                           <object class="GtkViewport">
                             <property name="child">
                               <object class="GtkTextView" id="debugtextview">
                                 <property name="focusable">1</property>
-                                <property name="wrap-mode">word</property>
                                 <property name="left-margin">5</property>
                                 <property name="right-margin">5</property>
                                 <property name="top-margin">5</property>

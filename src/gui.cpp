@@ -8,6 +8,10 @@
 #define RUN_ENTRY_ID "run_entry"
 #define CU_ENTRY_ID "cu_entry"
 #define DEBUG_TEXTVIEW_ID "debugtextview"
+#define SET_THREAD_OUTPUT_LINE_BUTTON_ID "set_thread_output_line_button"
+#define SET_THREAD_OUTPUT_VALUE_BUTTON_ID "set_thread_output_value_button"
+#define THREAD_OUTPUT_LINE_ENTRY_ID "thread_output_line_entry"
+#define THREAD_OUTPUT_VALUE_ENTRY_ID "thread_output_value_entry"
 
 namespace
 {
@@ -60,6 +64,28 @@ void on_thread_output_button_clicked()
   system("src/scripts/threads.sh");
 }
 
+std::string get_selected_text(Gtk::TextView *textView) {
+  Gtk::TextBuffer::iterator range_start;
+  Gtk::TextBuffer::iterator range_end;
+  if (textView->get_buffer()->get_selection_bounds(range_start, range_end)) {
+    return textView->get_buffer()->get_text(range_start, range_end, true);
+  } else {
+    return "";
+  }
+}
+
+void set_thread_output_line(std::shared_ptr<Gtk::Builder> refBuilder) {
+  std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
+  std::cerr << selected << std::endl;
+  refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+}
+
+void set_thread_output_value(std::shared_ptr<Gtk::Builder> refBuilder) {
+  std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
+  std::cerr << selected << std::endl;
+  refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+}
+
 void on_app_activate()
 {
   // Load the GtkBuilder file and instantiate its widgets:
@@ -98,6 +124,14 @@ void on_app_activate()
   auto pButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
   if (pButton)
     pButton->signal_clicked().connect([] () { on_thread_output_button_clicked(); });
+
+  auto pThreadOutputSetLineButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_LINE_BUTTON_ID);
+  if (pThreadOutputSetLineButton)
+    pThreadOutputSetLineButton->signal_clicked().connect([refBuilder] () { set_thread_output_line(refBuilder); });
+  
+  auto pThreadOutputSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_VALUE_BUTTON_ID);
+  if (pThreadOutputSetValueButton)
+    pThreadOutputSetValueButton->signal_clicked().connect([refBuilder] () { set_thread_output_value(refBuilder); });
 
   auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>("config_save_button");
   if (pConfigSaveButton) {
