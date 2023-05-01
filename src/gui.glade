@@ -204,7 +204,7 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">15</property>
+                            <property name="y">14</property>
                           </packing>
                         </child>
                       </object>
@@ -227,11 +227,11 @@
                             <property name="receives-default">True</property>
                           </object>
                           <packing>
-                            <property name="y">54</property>
+                            <property name="y">124</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="thread_overwrite_line_start_entry">
+                          <object class="GtkEntry" id="thread_overwrite_line_entry">
                             <property name="width-request">168</property>
                             <property name="height-request">34</property>
                             <property name="visible">True</property>
@@ -242,32 +242,55 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="thread_overwrite_line_start_entry_label">
+                          <object class="GtkLabel" id="thread_overwrite_line_entry_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Line Start</property>
+                            <property name="label" translatable="yes">Line</property>
                           </object>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="thread_overwrite_line_end_entry_label">
+                          <object class="GtkLabel" id="thread_overwrite_value_entry_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Line End</property>
+                            <property name="label" translatable="yes">Value</property>
                           </object>
                           <packing>
-                            <property name="x">200</property>
+                            <property name="y">60</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="thread_overwrite_line_end_entry">
+                          <object class="GtkEntry" id="thread_overwrite_value_entry">
                             <property name="width-request">168</property>
                             <property name="height-request">34</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                           </object>
                           <packing>
-                            <property name="x">200</property>
+                            <property name="y">74</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="set_thread_overwrite_line_button">
+                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">174</property>
                             <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="set_thread_overwrite_value_button">
+                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">174</property>
+                            <property name="y">74</property>
                           </packing>
                         </child>
                       </object>

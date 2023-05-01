@@ -172,7 +172,7 @@
                                 <child>
                                   <object class="GtkButton" id="set_thread_output_line_button">
                                     <layout>
-                                      <property name="transform">translate(174, 15)</property>
+                                      <property name="transform">translate(174, 14)</property>
                                     </layout>
                                     <property name="label" translatable="1">Set to Selection</property>
                                     <property name="width-request">119</property>
@@ -196,7 +196,7 @@
                                 <child>
                                   <object class="GtkButton" id="thread_overwrite_button">
                                     <layout>
-                                      <property name="transform">translate(0, 54)</property>
+                                      <property name="transform">translate(0, 124)</property>
                                     </layout>
                                     <property name="label" translatable="1">Detect Thread Overwrite</property>
                                     <property name="focusable">1</property>
@@ -204,7 +204,7 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="thread_overwrite_line_start_entry">
+                                  <object class="GtkEntry" id="thread_overwrite_line_entry">
                                     <layout>
                                       <property name="transform">translate(0, 14)</property>
                                     </layout>
@@ -214,26 +214,46 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="thread_overwrite_line_start_entry_label">
-                                    <property name="label" translatable="1">Line Start</property>
+                                  <object class="GtkLabel" id="thread_overwrite_line_entry_label">
+                                    <property name="label" translatable="1">Line</property>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkLabel" id="thread_overwrite_line_end_entry_label">
+                                  <object class="GtkLabel" id="thread_overwrite_value_entry_label">
                                     <layout>
-                                      <property name="transform">translate(200, 0)</property>
+                                      <property name="transform">translate(0, 60)</property>
                                     </layout>
-                                    <property name="label" translatable="1">Line End</property>
+                                    <property name="label" translatable="1">Value</property>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkEntry" id="thread_overwrite_line_end_entry">
+                                  <object class="GtkEntry" id="thread_overwrite_value_entry">
                                     <layout>
-                                      <property name="transform">translate(200, 14)</property>
+                                      <property name="transform">translate(0, 74)</property>
                                     </layout>
                                     <property name="width-request">168</property>
                                     <property name="height-request">34</property>
                                     <property name="focusable">1</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="set_thread_overwrite_line_button">
+                                    <layout>
+                                      <property name="transform">translate(174, 14)</property>
+                                    </layout>
+                                    <property name="label" translatable="1">Set to Selection</property>
+                                    <property name="focusable">1</property>
+                                    <property name="receives-default">1</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkButton" id="set_thread_overwrite_value_button">
+                                    <layout>
+                                      <property name="transform">translate(174, 74)</property>
+                                    </layout>
+                                    <property name="label" translatable="1">Set to Selection</property>
+                                    <property name="focusable">1</property>
+                                    <property name="receives-default">1</property>
                                   </object>
                                 </child>
                               </object>

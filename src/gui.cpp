@@ -7,11 +7,20 @@
 #define MAKE_ENTRY_ID "make_entry"
 #define RUN_ENTRY_ID "run_entry"
 #define CU_ENTRY_ID "cu_entry"
+#define CONFIG_SAVE_BUTTON_ID "config_save_button"
+
+
 #define DEBUG_TEXTVIEW_ID "debugtextview"
+
 #define SET_THREAD_OUTPUT_LINE_BUTTON_ID "set_thread_output_line_button"
 #define SET_THREAD_OUTPUT_VALUE_BUTTON_ID "set_thread_output_value_button"
 #define THREAD_OUTPUT_LINE_ENTRY_ID "thread_output_line_entry"
 #define THREAD_OUTPUT_VALUE_ENTRY_ID "thread_output_value_entry"
+
+#define SET_THREAD_OVERWRITE_LINE_BUTTON_ID "set_thread_overwrite_line_button"
+#define SET_THREAD_OVERWRITE_VALUE_BUTTON_ID "set_thread_overwrite_value_button"
+#define THREAD_OVERWRITE_LINE_ENTRY_ID "thread_overwrite_line_entry"
+#define THREAD_OVERWRITE_VALUE_ENTRY_ID "thread_overwrite_value_entry"
 
 namespace
 {
@@ -59,11 +68,6 @@ void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
   save_config(refBuilder);
 }
 
-void on_thread_output_button_clicked()
-{
-  system("src/scripts/threads.sh");
-}
-
 std::string get_selected_text(Gtk::TextView *textView) {
   Gtk::TextBuffer::iterator range_start;
   Gtk::TextBuffer::iterator range_end;
@@ -76,14 +80,42 @@ std::string get_selected_text(Gtk::TextView *textView) {
 
 void set_thread_output_line(std::shared_ptr<Gtk::Builder> refBuilder) {
   std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
-  std::cerr << selected << std::endl;
   refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
 }
 
 void set_thread_output_value(std::shared_ptr<Gtk::Builder> refBuilder) {
-  std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
-  std::cerr << selected << std::endl;
-  refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+  
+}
+
+void init_config_page(std::shared_ptr<Gtk::Builder> refBuilder) {
+  auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>(CONFIG_SAVE_BUTTON_ID);
+  if (pConfigSaveButton) {
+    pConfigSaveButton->signal_clicked().connect([refBuilder] () { save_config(refBuilder); });
+  }
+}
+
+void init_debug_page(std::shared_ptr<Gtk::Builder> refBuilder) {
+  // TODO: set thread output line number to cursor position
+  
+  // set thread output value entry to cursor selection
+  auto pThreadOutputSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_VALUE_BUTTON_ID);
+  pThreadOutputSetValueButton->signal_clicked().connect([refBuilder] () {
+    std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
+    refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+  });
+
+   // thread output button
+  auto pThreadOutputButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
+  pThreadOutputButton->signal_clicked().connect([] () { system("src/scripts/threads.sh"); });
+
+  // TODO: set thread overwrite line number to cursor position
+
+  // set thread overwrite value entry to cursor selection
+  auto pThreadOverwriteSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID);
+  pThreadOverwriteSetValueButton->signal_clicked().connect([refBuilder] () {
+    std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
+    refBuilder->get_widget<Gtk::Entry>(THREAD_OVERWRITE_VALUE_ENTRY_ID)->set_text(selected);
+  });
 }
 
 void on_app_activate()
@@ -118,25 +150,14 @@ void on_app_activate()
     return;
   }
 
-  init_config(refBuilder);
+  init_config_page(refBuilder);
+
+  init_debug_page(refBuilder);
 
   // Get the GtkBuilder-instantiated button, and connect a signal handler:
-  auto pButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
-  if (pButton)
-    pButton->signal_clicked().connect([] () { on_thread_output_button_clicked(); });
-
-  auto pThreadOutputSetLineButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_LINE_BUTTON_ID);
-  if (pThreadOutputSetLineButton)
-    pThreadOutputSetLineButton->signal_clicked().connect([refBuilder] () { set_thread_output_line(refBuilder); });
   
-  auto pThreadOutputSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_VALUE_BUTTON_ID);
-  if (pThreadOutputSetValueButton)
-    pThreadOutputSetValueButton->signal_clicked().connect([refBuilder] () { set_thread_output_value(refBuilder); });
 
-  auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>("config_save_button");
-  if (pConfigSaveButton) {
-    pConfigSaveButton->signal_clicked().connect([refBuilder] () { save_config(refBuilder); });
-  }
+  init_config(refBuilder);
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
@@ -160,32 +181,3 @@ int main(int argc, char** argv)
 
   return app->run(argc, argv);
 }
-
-
-// Gui::Gui()
-// : m_button("Hello World")   // creates a new button with label "Hello World".
-// {
-//   set_title("Basic application");
-//   set_default_size(200, 200);
-
-//   // Sets the margin around the button.
-//   m_button.set_margin(10);
-
-//   // When the button receives the "clicked" signal, it will call the
-//   // on_button_clicked() method defined below.
-//   m_button.signal_clicked().connect(sigc::mem_fun(*this,
-//               &Gui::on_button_clicked));
-
-//   // This packs the button into the Window (a container).
-//   set_child(m_button);
-// }
-
-// Gui::~Gui()
-// {
-// }
-
-// void Gui::on_button_clicked()
-// {
-//   std::cout << "Hello World" << std::endl;
-//   system("src/scripts/threads.sh");
-// }
