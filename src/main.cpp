@@ -1,5 +1,5 @@
 #include "gui.h"
-#include <gtkmm/application.h>
+#include "gtk/gtkmm.h"
 
 int main(int argc, char* argv[])
 {
