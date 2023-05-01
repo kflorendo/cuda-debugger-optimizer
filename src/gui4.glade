@@ -24,7 +24,7 @@
                     <property name="width-request">1100</property>
                     <property name="height-request">800</property>
                     <child>
-                      <object class="GtkEntry" id="makeentry">
+                      <object class="GtkEntry" id="make_entry">
                         <layout>
                           <property name="transform">translate(10, 24)</property>
                         </layout>
@@ -50,7 +50,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="runentry">
+                      <object class="GtkEntry" id="run_entry">
                         <layout>
                           <property name="transform">translate(10, 84)</property>
                         </layout>
@@ -59,7 +59,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="makelabel1">
+                      <object class="GtkLabel" id="culabel">
                         <layout>
                           <property name="transform">translate(10, 130)</property>
                         </layout>
@@ -67,7 +67,7 @@
                       </object>
                     </child>
                     <child>
-                      <object class="GtkEntry" id="runentry1">
+                      <object class="GtkEntry" id="cu_entry">
                         <layout>
                           <property name="transform">translate(10, 144)</property>
                         </layout>

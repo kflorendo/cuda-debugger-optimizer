@@ -1,5 +1,6 @@
 #include <gtkmm.h>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -7,6 +8,33 @@ namespace
 {
 Gtk::Window* pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
+
+void set_text_entry(std::shared_ptr<Gtk::Builder> refBuilder, std::string id, std::string text)
+{
+  auto pEntry = refBuilder->get_widget<Gtk::Entry>(id);
+  if (pEntry)
+    pEntry->set_text(text);
+}
+
+void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
+  // Create a text string, which is used to output the text file
+  std::string configText;
+
+  // Read from the text file
+  std::ifstream configReadFile("output/config.txt");
+
+  getline(configReadFile, configText);
+  set_text_entry(refBuilder, "make_entry", configText);
+
+  getline(configReadFile, configText);
+  set_text_entry(refBuilder, "run_entry", configText);
+
+  getline(configReadFile, configText);
+  set_text_entry(refBuilder, "cu_entry", configText);
+
+  // Close the file
+  configReadFile.close();
+}
 
 void on_thread_output_button_clicked()
 {
@@ -51,6 +79,8 @@ void on_app_activate()
     std::cerr << "Could not get the window" << std::endl;
     return;
   }
+
+  init_config(refBuilder);
 
   // Get the GtkBuilder-instantiated button, and connect a signal handler:
   auto pButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");

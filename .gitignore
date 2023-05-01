@@ -1,3 +1,4 @@
 *.DS_Store
 src/gui.glade~
 src/#gui.glade#
+.vscode/settings.json
