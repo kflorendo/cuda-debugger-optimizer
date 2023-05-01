@@ -1,4 +1,4 @@
-#include "gtk/gtkmm.h"
+#include <gtkmm.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
