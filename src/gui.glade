@@ -20,6 +20,8 @@
             <child>
               <object class="GtkFixed" id="fixedpage1">
                 <property name="name">fixedpage1</property>
+                <property name="width-request">1100</property>
+                <property name="height-request">800</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
@@ -89,6 +91,20 @@
                     <property name="y">144</property>
                   </packing>
                 </child>
+                <child>
+                  <object class="GtkButton" id="config_save_button">
+                    <property name="label" translatable="yes">Save</property>
+                    <property name="width-request">62</property>
+                    <property name="height-request">34</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">True</property>
+                  </object>
+                  <packing>
+                    <property name="x">10</property>
+                    <property name="y">188</property>
+                  </packing>
+                </child>
               </object>
               <packing>
                 <property name="name">page0</property>
@@ -100,131 +116,186 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkFixed" id="thread_output_fixed">
-                    <property name="width-request">100</property>
-                    <property name="height-request">80</property>
+                  <object class="GtkStack" id="debugstack">
+                    <property name="width-request">454</property>
+                    <property name="height-request">497</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
-                      <object class="GtkButton" id="thread_output_button">
-                        <property name="label" translatable="yes">Get Thread Output</property>
-                        <property name="width-request">126</property>
-                        <property name="height-request">34</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                      </object>
-                      <packing>
-                        <property name="y">54</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="thread_output_line_entry">
-                        <property name="width-request">168</property>
-                        <property name="height-request">34</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                      </object>
-                      <packing>
-                        <property name="y">14</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="thread_output_line_entry_label">
+                      <object class="GtkFixed" id="thread_output_fixed1">
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Line</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="thread_output_value_entry">
-                        <property name="width-request">168</property>
-                        <property name="height-request">34</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
+                        <child>
+                          <object class="GtkButton" id="thread_output_button">
+                            <property name="label" translatable="yes">Get Thread Output</property>
+                            <property name="width-request">134</property>
+                            <property name="height-request">34</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">124</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_output_line_entry">
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_output_line_entry_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Line</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_output_value_entry">
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">74</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_output_value_entry_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Value</property>
+                          </object>
+                          <packing>
+                            <property name="y">60</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
-                        <property name="x">200</property>
-                        <property name="y">14</property>
+                        <property name="name">Thread Output</property>
+                        <property name="title" translatable="yes">Thread Output</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="thread_output_value_entry_label">
+                      <object class="GtkFixed" id="thread_overwrite_fixed1">
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Value</property>
+                        <child>
+                          <object class="GtkButton" id="thread_overwrite_button">
+                            <property name="label" translatable="yes">Detect Thread Overwrite</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">54</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_overwrite_line_start_entry">
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_overwrite_line_start_entry_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Line Start</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="thread_overwrite_line_end_entry_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Line End</property>
+                          </object>
+                          <packing>
+                            <property name="x">200</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_overwrite_line_end_entry">
+                            <property name="width-request">168</property>
+                            <property name="height-request">34</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">200</property>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
-                        <property name="x">200</property>
+                        <property name="name">Thread Overwrite</property>
+                        <property name="title" translatable="yes">Thread Overwrite</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="x">10</property>
+                    <property name="x">154</property>
                     <property name="y">10</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkFixed" id="thread_overwrite_fixed">
-                    <property name="width-request">100</property>
+                  <object class="GtkStackSidebar" id="debugstacksidebar">
+                    <property name="width-request">150</property>
                     <property name="height-request">80</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="stack">debugstack</property>
+                  </object>
+                  <packing>
+                    <property name="y">10</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkScrolledWindow">
+                    <property name="width-request">100</property>
+                    <property name="height-request">80</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="shadow-type">in</property>
                     <child>
-                      <object class="GtkButton" id="thread_overwrite_button1">
-                        <property name="label" translatable="yes">Detect Thread Overwrite</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">True</property>
-                      </object>
-                      <packing>
-                        <property name="y">54</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="thread_overwrite_line_start_entry">
-                        <property name="width-request">168</property>
-                        <property name="height-request">34</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                      </object>
-                      <packing>
-                        <property name="y">14</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="thread_overwrite_line_start_entry_label">
+                      <object class="GtkViewport">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Line Start</property>
+                        <child>
+                          <object class="GtkTextView" id="debugtextview">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="wrap-mode">word</property>
+                            <property name="left-margin">5</property>
+                            <property name="right-margin">5</property>
+                            <property name="top-margin">5</property>
+                            <property name="bottom-margin">5</property>
+                            <property name="monospace">True</property>
+                          </object>
+                        </child>
                       </object>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="thread_overwrite_line_end_entry_label">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Line End</property>
-                      </object>
-                      <packing>
-                        <property name="x">200</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="thread_overwrite_line_end_entry">
-                        <property name="width-request">168</property>
-                        <property name="height-request">34</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                      </object>
-                      <packing>
-                        <property name="x">200</property>
-                        <property name="y">14</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="x">10</property>
-                    <property name="y">120</property>
+                    <property name="x">500</property>
+                    <property name="y">10</property>
                   </packing>
                 </child>
               </object>

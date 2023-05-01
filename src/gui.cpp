@@ -13,6 +13,12 @@ void on_thread_output_button_clicked()
   system("src/scripts/threads.sh");
 }
 
+void on_config_save_button_clicked(std::shared_ptr<Gtk::Builder> refBuilder) {
+  auto pDebugTextView = refBuilder->get_widget<Gtk::TextView>("debugtextview");
+  if (pDebugTextView)
+    pDebugTextView->get_buffer()->set_text("this worked!");
+}
+
 
 void on_app_activate()
 {
@@ -50,6 +56,11 @@ void on_app_activate()
   auto pButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
   if (pButton)
     pButton->signal_clicked().connect([] () { on_thread_output_button_clicked(); });
+
+  auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>("config_save_button");
+  if (pConfigSaveButton) {
+    pConfigSaveButton->signal_clicked().connect([refBuilder] () { on_config_save_button_clicked(refBuilder); });
+  }
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
