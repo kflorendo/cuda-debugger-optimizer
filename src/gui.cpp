@@ -4,6 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define MAKE_ENTRY_ID "make_entry"
+#define RUN_ENTRY_ID "run_entry"
+#define CU_ENTRY_ID "cu_entry"
+#define DEBUG_TEXTVIEW_ID "debugtextview"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -16,6 +21,18 @@ void set_text_entry(std::shared_ptr<Gtk::Builder> refBuilder, std::string id, st
     pEntry->set_text(text);
 }
 
+void save_config(std::shared_ptr<Gtk::Builder> refBuilder) {
+  auto pCuEntry = refBuilder->get_widget<Gtk::Entry>(CU_ENTRY_ID);
+  auto pDebugTextView = refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID);
+  if (pDebugTextView) {
+    std::ifstream cuFile(pCuEntry->get_text());
+    std::stringstream fileContents;
+    fileContents << cuFile.rdbuf();
+    pDebugTextView->get_buffer()->set_text(fileContents.str());
+    cuFile.close();
+  }
+}
+
 void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
   // Create a text string, which is used to output the text file
   std::string configText;
@@ -24,29 +41,24 @@ void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
   std::ifstream configReadFile("output/config.txt");
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, "make_entry", configText);
+  set_text_entry(refBuilder, MAKE_ENTRY_ID, configText);
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, "run_entry", configText);
+  set_text_entry(refBuilder, RUN_ENTRY_ID, configText);
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, "cu_entry", configText);
+  set_text_entry(refBuilder, CU_ENTRY_ID, configText);
 
   // Close the file
   configReadFile.close();
+
+  save_config(refBuilder);
 }
 
 void on_thread_output_button_clicked()
 {
   system("src/scripts/threads.sh");
 }
-
-void on_config_save_button_clicked(std::shared_ptr<Gtk::Builder> refBuilder) {
-  auto pDebugTextView = refBuilder->get_widget<Gtk::TextView>("debugtextview");
-  if (pDebugTextView)
-    pDebugTextView->get_buffer()->set_text("this worked!");
-}
-
 
 void on_app_activate()
 {
@@ -89,7 +101,7 @@ void on_app_activate()
 
   auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>("config_save_button");
   if (pConfigSaveButton) {
-    pConfigSaveButton->signal_clicked().connect([refBuilder] () { on_config_save_button_clicked(refBuilder); });
+    pConfigSaveButton->signal_clicked().connect([refBuilder] () { save_config(refBuilder); });
   }
 
   // It's not possible to delete widgets after app->run() has returned.
