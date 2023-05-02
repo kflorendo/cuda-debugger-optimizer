@@ -28,7 +28,7 @@ namespace
 Gtk::Window* pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
 
-std::shared_ptr<Gtk::Builder> refBuilder;
+Glib::RefPtr<Gtk::Builder> refBuilder;
 
 class ThreadOutputColumns : public Gtk::TreeModel::ColumnRecord
 {
@@ -59,14 +59,17 @@ Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
 
 void set_text_entry(std::string id, std::string text)
 {
-  auto pEntry = refBuilder->get_widget<Gtk::Entry>(id);
+  Gtk::Entry* pEntry;
+  refBuilder->get_widget(id, pEntry);
   if (pEntry)
     pEntry->set_text(text);
 }
 
 void save_config() {
-  auto pCuEntry = refBuilder->get_widget<Gtk::Entry>(CU_ENTRY_ID);
-  auto pDebugTextView = refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID);
+  Gtk::Entry* pCuEntry;
+  refBuilder->get_widget(CU_ENTRY_ID, pCuEntry);
+  Gtk::TextView* pDebugTextView;
+  refBuilder->get_widget(DEBUG_TEXTVIEW_ID, pDebugTextView);
   if (pDebugTextView) {
     std::ifstream cuFile(pCuEntry->get_text());
     std::stringstream fileContents;
@@ -110,7 +113,8 @@ std::string get_selected_text(Gtk::TextView *textView) {
 
 void get_thread_output() {
   threadOutputTreeModel = Gtk::ListStore::create(threadOutputColumns);
-  auto treeView = refBuilder->get_widget<Gtk::TreeView>(THREAD_OUTPUT_TREEVIEW_ID);
+  Gtk::TreeView* treeView;
+  refBuilder->get_widget(THREAD_OUTPUT_TREEVIEW_ID, treeView);
   treeView->set_model(threadOutputTreeModel);
 
   std::string line;
@@ -148,7 +152,8 @@ void get_thread_output() {
 }
 
 void init_config_page() {
-  auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>(CONFIG_SAVE_BUTTON_ID);
+  Gtk::Button* pConfigSaveButton;
+  refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
   if (pConfigSaveButton) {
     pConfigSaveButton->signal_clicked().connect([] () { save_config(); });
   }
@@ -160,14 +165,20 @@ void init_debug_page() {
   // TODO: set thread output line number to cursor position
   
   // set thread output value entry to cursor selection
-  auto pThreadOutputSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_VALUE_BUTTON_ID);
+  Gtk::Button* pThreadOutputSetValueButton;
+  refBuilder->get_widget(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, pThreadOutputSetValueButton);
   pThreadOutputSetValueButton->signal_clicked().connect([] () {
-    std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
-    refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+    Gtk::TextView* debugTextView;
+    refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
+    std::string selected = get_selected_text(debugTextView);
+    Gtk::Entry* threadOutputEntry;
+    refBuilder->get_widget(THREAD_OUTPUT_VALUE_ENTRY_ID, threadOutputEntry);
+    threadOutputEntry->set_text(selected);
   });
 
   // thread output button
-  auto pThreadOutputButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
+  Gtk::Button* pThreadOutputButton;
+  refBuilder->get_widget("thread_output_button", pThreadOutputButton);
   pThreadOutputButton->signal_clicked().connect([] () { 
     system("src/scripts/threads.sh");
     get_thread_output();
@@ -176,20 +187,27 @@ void init_debug_page() {
   // TODO: set thread overwrite line number to cursor position
 
   // set thread overwrite value entry to cursor selection
-  auto pThreadOverwriteSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID);
+  Gtk::Button* pThreadOverwriteSetValueButton;
+  refBuilder->get_widget(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, pThreadOverwriteSetValueButton);
   pThreadOverwriteSetValueButton->signal_clicked().connect([] () {
-    std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
-    refBuilder->get_widget<Gtk::Entry>(THREAD_OVERWRITE_VALUE_ENTRY_ID)->set_text(selected);
+    Gtk::TextView* debugTextView;
+    refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
+    std::string selected = get_selected_text(debugTextView);
+    Gtk::Entry* threadOverwriteValueEntry;
+    refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
+    threadOverwriteValueEntry->set_text(selected);
   });
 }
 
 void on_app_activate()
 {
+  std::cerr << "Activating" << std::endl;
   // Load the GtkBuilder file and instantiate its widgets:
-  refBuilder = Gtk::Builder::create();
+  // refBuilder = Gtk::Builder::create();
   try
   {
-    refBuilder->add_from_file("src/gui4.glade");
+    // refBuilder->add_from_file("src/gui4.glade");
+    refBuilder = Gtk::Builder::create_from_file("src/gui.glade");
   }
   catch(const Glib::FileError& ex)
   {
@@ -208,20 +226,21 @@ void on_app_activate()
   }
 
   // Get the GtkBuilder-instantiated window:
-  pWindow = refBuilder->get_widget<Gtk::Window>("window");
+  Gtk::Window* pWindow;
+  refBuilder->get_widget("window", pWindow);
   if (!pWindow)
   {
     std::cerr << "Could not get the window" << std::endl;
     return;
   }
 
-  init_config_page();
+  // init_config_page();
 
-  init_debug_page();
+  // init_debug_page();
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
-  pWindow->signal_hide().connect([] () { delete pWindow; });
+  pWindow->signal_hide().connect([&] () { delete pWindow; });
 
   app->add_window(*pWindow);
   pWindow->set_visible(true);

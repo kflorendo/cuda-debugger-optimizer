@@ -7,7 +7,6 @@
     <property name="title" translatable="yes">CUDA Debugger and Optimizer</property>
     <child>
       <object class="GtkFixed" id="fixed1">
-        <property name="width-request">500</property>
         <property name="height-request">400</property>
         <property name="visible">True</property>
         <property name="can-focus">False</property>
@@ -210,7 +209,7 @@
                         <child>
                           <object class="GtkScrolledWindow">
                             <property name="width-request">440</property>
-                            <property name="height-request">400</property>
+                            <property name="height-request">575</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
@@ -341,7 +340,7 @@
                 </child>
                 <child>
                   <object class="GtkScrolledWindow">
-                    <property name="width-request">576</property>
+                    <property name="width-request">560</property>
                     <property name="height-request">755</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -354,6 +353,7 @@
                           <object class="GtkTextView" id="debugtextview">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
+                            <property name="editable">False</property>
                             <property name="left-margin">5</property>
                             <property name="right-margin">5</property>
                             <property name="top-margin">5</property>

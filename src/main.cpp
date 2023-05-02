@@ -1,10 +1,13 @@
-#include "gui.h"
-#include <gtkmm/application.h>
+#include <gtkmm.h>
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-  auto app = Gtk::Application::create("org.gtkmm.example");
+  auto app =
+    Gtk::Application::create(argc, argv,
+      "org.gtkmm.examples.base");
 
-  //Shows the window and returns when it is closed.
-  return app->make_window_and_run<Gui>(argc, argv);
+  Gtk::Window window;
+  window.set_default_size(200, 200);
+
+  return app->run(window);
 }
