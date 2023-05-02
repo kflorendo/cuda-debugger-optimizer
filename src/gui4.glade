@@ -103,7 +103,7 @@
                           <property name="transform">translate(154, 10)</property>
                         </layout>
                         <property name="width-request">454</property>
-                        <property name="height-request">497</property>
+                        <property name="height-request">755</property>
                         <child>
                           <object class="GtkStackPage">
                             <property name="name">Thread Output</property>
@@ -179,6 +179,24 @@
                                     <property name="height-request">34</property>
                                     <property name="focusable">1</property>
                                     <property name="receives-default">1</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkScrolledWindow">
+                                    <layout>
+                                      <property name="transform">translate(0, 180)</property>
+                                    </layout>
+                                    <property name="width-request">440</property>
+                                    <property name="height-request">575</property>
+                                    <property name="focusable">1</property>
+                                    <property name="child">
+                                      <object class="GtkTreeView" id="thread_output_treeview">
+                                        <property name="focusable">1</property>
+                                        <child internal-child="selection">
+                                          <object class="GtkTreeSelection"/>
+                                        </child>
+                                      </object>
+                                    </property>
                                   </object>
                                 </child>
                               </object>

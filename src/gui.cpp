@@ -16,6 +16,7 @@
 #define SET_THREAD_OUTPUT_VALUE_BUTTON_ID "set_thread_output_value_button"
 #define THREAD_OUTPUT_LINE_ENTRY_ID "thread_output_line_entry"
 #define THREAD_OUTPUT_VALUE_ENTRY_ID "thread_output_value_entry"
+#define THREAD_OUTPUT_TREEVIEW_ID "thread_output_treeview"
 
 #define SET_THREAD_OVERWRITE_LINE_BUTTON_ID "set_thread_overwrite_line_button"
 #define SET_THREAD_OVERWRITE_VALUE_BUTTON_ID "set_thread_overwrite_value_button"
@@ -29,30 +30,32 @@ Glib::RefPtr<Gtk::Application> app;
 
 std::shared_ptr<Gtk::Builder> refBuilder;
 
-// class ThreadOutputColumns : public Gtk::TreeModel::ColumnRecord
-// {
-// public:
+class ThreadOutputColumns : public Gtk::TreeModel::ColumnRecord
+{
+public:
 
-//   ModelColumns() {
-//     add(m_col_grid_x);
-//     add(m_col_grid_y);
-//     add(m_col_grid_z);
-//     add(m_col_block_x);
-//     add(m_col_block_y);
-//     add(m_col_block_z);
-//   }
+  ThreadOutputColumns() {
+    add(m_col_grid_x);
+    add(m_col_grid_y);
+    add(m_col_grid_z);
+    add(m_col_block_x);
+    add(m_col_block_y);
+    add(m_col_block_z);
+    add(m_col_value);
+  }
 
-//   Gtk::TreeModelColumn<unsigned int> m_col_grid_x;
-//   Gtk::TreeModelColumn<unsigned int> m_col_grid_y;
-//   Gtk::TreeModelColumn<unsigned int> m_col_grid_z;
-//   Gtk::TreeModelColumn<unsigned int> m_col_block_x;
-//   Gtk::TreeModelColumn<unsigned int> m_col_block_y;
-//   Gtk::TreeModelColumn<unsigned int> m_col_block_z;
-// };
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_z;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_z;
+  Gtk::TreeModelColumn<std::string> m_col_value;
+};
 
-// ThreadOutputColumns threadOutputColumns;
+ThreadOutputColumns threadOutputColumns;
 
-// Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
+Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
 
 void set_text_entry(std::string id, std::string text)
 {
@@ -106,7 +109,44 @@ std::string get_selected_text(Gtk::TextView *textView) {
 }
 
 void get_thread_output() {
+  threadOutputTreeModel = Gtk::ListStore::create(threadOutputColumns);
+  auto treeView = refBuilder->get_widget<Gtk::TreeView>(THREAD_OUTPUT_TREEVIEW_ID);
+  treeView->set_model(threadOutputTreeModel);
 
+  std::string line;
+  std::ifstream threadOutputFile("output/threadOutput.txt");
+
+  while (threadOutputFile) {
+    getline(threadOutputFile, line);
+
+    std::istringstream lineStringStream(line);
+    std::string token;
+    while ( getline( lineStringStream, token, ' ' ) ) {
+      auto row = *(threadOutputTreeModel->append());
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_grid_x] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_grid_y] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_grid_z] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_block_x] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_block_y] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_block_z] = stoi(token);
+      getline(lineStringStream, token, ' ');
+      row[threadOutputColumns.m_col_value] = token;
+    }
+  }
+
+  treeView->append_column("Grid X", threadOutputColumns.m_col_grid_x);
+  treeView->append_column("Grid Y", threadOutputColumns.m_col_grid_y);
+  treeView->append_column("Grid Z", threadOutputColumns.m_col_grid_z);
+  treeView->append_column("Block X", threadOutputColumns.m_col_block_x);
+  treeView->append_column("Block Y", threadOutputColumns.m_col_block_y);
+  treeView->append_column("Block Z", threadOutputColumns.m_col_block_z);
+  treeView->append_column("Value", threadOutputColumns.m_col_value);
 }
 
 void init_config_page() {
@@ -130,7 +170,10 @@ void init_debug_page() {
 
   // thread output button
   auto pThreadOutputButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
-  pThreadOutputButton->signal_clicked().connect([] () { system("src/scripts/threads.sh"); });
+  pThreadOutputButton->signal_clicked().connect([] () { 
+    system("src/scripts/threads.sh");
+    get_thread_output();
+  });
 
   // TODO: set thread overwrite line number to cursor position
 

@@ -118,7 +118,7 @@
                 <child>
                   <object class="GtkStack" id="debugstack">
                     <property name="width-request">454</property>
-                    <property name="height-request">497</property>
+                    <property name="height-request">755</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
@@ -205,6 +205,27 @@
                           <packing>
                             <property name="x">174</property>
                             <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="width-request">440</property>
+                            <property name="height-request">575</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="shadow-type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="thread_output_treeview">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">180</property>
                           </packing>
                         </child>
                       </object>

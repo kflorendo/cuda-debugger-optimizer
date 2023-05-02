@@ -118,7 +118,7 @@
                 <child>
                   <object class="GtkStack" id="debugstack">
                     <property name="width-request">454</property>
-                    <property name="height-request">497</property>
+                    <property name="height-request">755</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <child>
@@ -207,6 +207,27 @@
                             <property name="y">14</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="width-request">440</property>
+                            <property name="height-request">400</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="shadow-type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="thread_output_treeview">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">180</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="name">Thread Output</property>
@@ -245,7 +266,7 @@
                           <object class="GtkLabel" id="thread_overwrite_line_entry_label">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Line Start</property>
+                            <property name="label" translatable="yes">Line</property>
                           </object>
                         </child>
                         <child>
