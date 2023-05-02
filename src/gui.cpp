@@ -20,11 +20,13 @@
 #define THREAD_OUTPUT_VALUE_ENTRY_ID "thread_output_value_entry"
 #define THREAD_OUTPUT_VALUE_TYPE_ENTRY_ID "thread_output_value_type_entry"
 #define THREAD_OUTPUT_TREEVIEW_ID "thread_output_treeview"
+#define THREAD_OUTPUT_SUBMIT_BUTTON_ID "thread_output_button"
 
 #define SET_THREAD_OVERWRITE_LINE_BUTTON_ID "set_thread_overwrite_line_button"
 #define SET_THREAD_OVERWRITE_VALUE_BUTTON_ID "set_thread_overwrite_value_button"
 #define THREAD_OVERWRITE_LINE_ENTRY_ID "thread_overwrite_line_entry"
 #define THREAD_OVERWRITE_VALUE_ENTRY_ID "thread_overwrite_value_entry"
+#define THREAD_OVERWRITE_SUBMIT_BUTTON_ID "thread_overwrite_button"
 
 #define OPT_CONFIG_TEXTVIEW_ID "opt_config_textview"
 
@@ -167,7 +169,7 @@ void get_thread_output() {
   refBuilder->get_widget(THREAD_OUTPUT_LINE_ENTRY_ID, threadOutputLineEntry);
   std::string lineInput = threadOutputLineEntry->get_text();
 
-  std::cout << "./threadOutput.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + typeInput + " -l " + lineInput << std::endl;;
+  std::cout << "./threadOutput.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + typeInput + " -l " + lineInput << std::endl;
   
   // TODO: run ./threadOutput.sh -m makeConfig -r runConfig -c cuConfig -v valueInput -t typeInput -l lineInput
 
@@ -211,6 +213,25 @@ void get_thread_output() {
   treeView->append_column("Value", threadOutputColumns.m_col_value);
 }
 
+void get_thread_overwrite() {
+  // gui input => bash input
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+  Gtk::Entry* threadOverwriteValueEntry;
+  refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
+  std::string valueInput = threadOverwriteValueEntry->get_text();
+
+  Gtk::Entry* threadOverwriteLineEntry;
+  refBuilder->get_widget(THREAD_OVERWRITE_LINE_ENTRY_ID, threadOverwriteLineEntry);
+  std::string lineInput = threadOverwriteLineEntry->get_text();
+
+  std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -l " + lineInput << std::endl;
+}
+
 void init_config_page() {
   Gtk::Button* pConfigSaveButton;
   refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
@@ -238,7 +259,7 @@ void init_debug_page() {
 
   // thread output button
   Gtk::Button* pThreadOutputButton;
-  refBuilder->get_widget("thread_output_button", pThreadOutputButton);
+  refBuilder->get_widget(THREAD_OUTPUT_SUBMIT_BUTTON_ID, pThreadOutputButton);
   pThreadOutputButton->signal_clicked().connect([] () { 
     system("src/scripts/threads.sh");
     get_thread_output();
@@ -256,6 +277,13 @@ void init_debug_page() {
     Gtk::Entry* threadOverwriteValueEntry;
     refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
     threadOverwriteValueEntry->set_text(selected);
+  });
+
+  // thread overwrite button
+  Gtk::Button* pThreadOverwriteButton;
+  refBuilder->get_widget(THREAD_OVERWRITE_SUBMIT_BUTTON_ID, pThreadOverwriteButton);
+  pThreadOverwriteButton->signal_clicked().connect([] () { 
+    get_thread_overwrite();
   });
 }
 
