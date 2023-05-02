@@ -27,14 +27,41 @@ namespace
 Gtk::Window* pWindow = nullptr;
 Glib::RefPtr<Gtk::Application> app;
 
-void set_text_entry(std::shared_ptr<Gtk::Builder> refBuilder, std::string id, std::string text)
+std::shared_ptr<Gtk::Builder> refBuilder;
+
+// class ThreadOutputColumns : public Gtk::TreeModel::ColumnRecord
+// {
+// public:
+
+//   ModelColumns() {
+//     add(m_col_grid_x);
+//     add(m_col_grid_y);
+//     add(m_col_grid_z);
+//     add(m_col_block_x);
+//     add(m_col_block_y);
+//     add(m_col_block_z);
+//   }
+
+//   Gtk::TreeModelColumn<unsigned int> m_col_grid_x;
+//   Gtk::TreeModelColumn<unsigned int> m_col_grid_y;
+//   Gtk::TreeModelColumn<unsigned int> m_col_grid_z;
+//   Gtk::TreeModelColumn<unsigned int> m_col_block_x;
+//   Gtk::TreeModelColumn<unsigned int> m_col_block_y;
+//   Gtk::TreeModelColumn<unsigned int> m_col_block_z;
+// };
+
+// ThreadOutputColumns threadOutputColumns;
+
+// Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
+
+void set_text_entry(std::string id, std::string text)
 {
   auto pEntry = refBuilder->get_widget<Gtk::Entry>(id);
   if (pEntry)
     pEntry->set_text(text);
 }
 
-void save_config(std::shared_ptr<Gtk::Builder> refBuilder) {
+void save_config() {
   auto pCuEntry = refBuilder->get_widget<Gtk::Entry>(CU_ENTRY_ID);
   auto pDebugTextView = refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID);
   if (pDebugTextView) {
@@ -46,7 +73,7 @@ void save_config(std::shared_ptr<Gtk::Builder> refBuilder) {
   }
 }
 
-void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
+void init_config_from_file() {
   // Create a text string, which is used to output the text file
   std::string configText;
 
@@ -54,18 +81,18 @@ void init_config(std::shared_ptr<Gtk::Builder> refBuilder) {
   std::ifstream configReadFile("output/config.txt");
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, MAKE_ENTRY_ID, configText);
+  set_text_entry(MAKE_ENTRY_ID, configText);
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, RUN_ENTRY_ID, configText);
+  set_text_entry(RUN_ENTRY_ID, configText);
 
   getline(configReadFile, configText);
-  set_text_entry(refBuilder, CU_ENTRY_ID, configText);
+  set_text_entry(CU_ENTRY_ID, configText);
 
   // Close the file
   configReadFile.close();
 
-  save_config(refBuilder);
+  save_config();
 }
 
 std::string get_selected_text(Gtk::TextView *textView) {
@@ -78,33 +105,30 @@ std::string get_selected_text(Gtk::TextView *textView) {
   }
 }
 
-void set_thread_output_line(std::shared_ptr<Gtk::Builder> refBuilder) {
-  std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
-  refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
+void get_thread_output() {
+
 }
 
-void set_thread_output_value(std::shared_ptr<Gtk::Builder> refBuilder) {
-  
-}
-
-void init_config_page(std::shared_ptr<Gtk::Builder> refBuilder) {
+void init_config_page() {
   auto pConfigSaveButton = refBuilder->get_widget<Gtk::Button>(CONFIG_SAVE_BUTTON_ID);
   if (pConfigSaveButton) {
-    pConfigSaveButton->signal_clicked().connect([refBuilder] () { save_config(refBuilder); });
+    pConfigSaveButton->signal_clicked().connect([] () { save_config(); });
   }
+
+  init_config_from_file();
 }
 
-void init_debug_page(std::shared_ptr<Gtk::Builder> refBuilder) {
+void init_debug_page() {
   // TODO: set thread output line number to cursor position
   
   // set thread output value entry to cursor selection
   auto pThreadOutputSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OUTPUT_VALUE_BUTTON_ID);
-  pThreadOutputSetValueButton->signal_clicked().connect([refBuilder] () {
+  pThreadOutputSetValueButton->signal_clicked().connect([] () {
     std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
     refBuilder->get_widget<Gtk::Entry>(THREAD_OUTPUT_VALUE_ENTRY_ID)->set_text(selected);
   });
 
-   // thread output button
+  // thread output button
   auto pThreadOutputButton = refBuilder->get_widget<Gtk::Button>("thread_output_button");
   pThreadOutputButton->signal_clicked().connect([] () { system("src/scripts/threads.sh"); });
 
@@ -112,7 +136,7 @@ void init_debug_page(std::shared_ptr<Gtk::Builder> refBuilder) {
 
   // set thread overwrite value entry to cursor selection
   auto pThreadOverwriteSetValueButton = refBuilder->get_widget<Gtk::Button>(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID);
-  pThreadOverwriteSetValueButton->signal_clicked().connect([refBuilder] () {
+  pThreadOverwriteSetValueButton->signal_clicked().connect([] () {
     std::string selected = get_selected_text(refBuilder->get_widget<Gtk::TextView>(DEBUG_TEXTVIEW_ID));
     refBuilder->get_widget<Gtk::Entry>(THREAD_OVERWRITE_VALUE_ENTRY_ID)->set_text(selected);
   });
@@ -121,7 +145,7 @@ void init_debug_page(std::shared_ptr<Gtk::Builder> refBuilder) {
 void on_app_activate()
 {
   // Load the GtkBuilder file and instantiate its widgets:
-  auto refBuilder = Gtk::Builder::create();
+  refBuilder = Gtk::Builder::create();
   try
   {
     refBuilder->add_from_file("src/gui4.glade");
@@ -150,14 +174,9 @@ void on_app_activate()
     return;
   }
 
-  init_config_page(refBuilder);
+  init_config_page();
 
-  init_debug_page(refBuilder);
-
-  // Get the GtkBuilder-instantiated button, and connect a signal handler:
-  
-
-  init_config(refBuilder);
+  init_debug_page();
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
