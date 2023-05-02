@@ -265,7 +265,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkEntry" id="thread_output_line_entry1">
+                          <object class="GtkEntry" id="thread_output_value_type_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
@@ -455,7 +455,7 @@
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
                                 <child>
-                                  <object class="GtkTextView" id="optimize_textview">
+                                  <object class="GtkTextView" id="opt_config_textview">
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="editable">False</property>

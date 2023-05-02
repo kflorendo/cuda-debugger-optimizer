@@ -4,9 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAKE_ENTRY_ID "make_entry"
-#define RUN_ENTRY_ID "run_entry"
-#define CU_ENTRY_ID "cu_entry"
+#define CONFIG_FILENAME "output/config.txt"
+
+#define CONFIG_MAKE_ENTRY_ID "make_entry"
+#define CONFIG_RUN_ENTRY_ID "run_entry"
+#define CONFIG_CU_ENTRY_ID "cu_entry"
 #define CONFIG_SAVE_BUTTON_ID "config_save_button"
 
 
@@ -16,12 +18,15 @@
 #define SET_THREAD_OUTPUT_VALUE_BUTTON_ID "set_thread_output_value_button"
 #define THREAD_OUTPUT_LINE_ENTRY_ID "thread_output_line_entry"
 #define THREAD_OUTPUT_VALUE_ENTRY_ID "thread_output_value_entry"
+#define THREAD_OUTPUT_VALUE_TYPE_ENTRY_ID "thread_output_value_type_entry"
 #define THREAD_OUTPUT_TREEVIEW_ID "thread_output_treeview"
 
 #define SET_THREAD_OVERWRITE_LINE_BUTTON_ID "set_thread_overwrite_line_button"
 #define SET_THREAD_OVERWRITE_VALUE_BUTTON_ID "set_thread_overwrite_value_button"
 #define THREAD_OVERWRITE_LINE_ENTRY_ID "thread_overwrite_line_entry"
 #define THREAD_OVERWRITE_VALUE_ENTRY_ID "thread_overwrite_value_entry"
+
+#define OPT_CONFIG_TEXTVIEW_ID "opt_config_textview"
 
 namespace
 {
@@ -65,39 +70,70 @@ void set_text_entry(std::string id, std::string text)
     pEntry->set_text(text);
 }
 
-void save_config() {
-  Gtk::Entry* pCuEntry;
-  refBuilder->get_widget(CU_ENTRY_ID, pCuEntry);
+void set_text_views(std::string cuFileName) {
   Gtk::TextView* pDebugTextView;
   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, pDebugTextView);
-  if (pDebugTextView) {
-    std::ifstream cuFile(pCuEntry->get_text());
+  Gtk::TextView* pOptimizeConfigTextView;
+  refBuilder->get_widget(OPT_CONFIG_TEXTVIEW_ID, pOptimizeConfigTextView);
+  if (pDebugTextView && pOptimizeConfigTextView) {
+    std::ifstream cuFile(cuFileName);
     std::stringstream fileContents;
     fileContents << cuFile.rdbuf();
     pDebugTextView->get_buffer()->set_text(fileContents.str());
+    pOptimizeConfigTextView->get_buffer()->set_text(fileContents.str());
     cuFile.close();
   }
 }
 
-void init_config_from_file() {
+void save_config() {
+  Gtk::Entry* makeEntry;
+  refBuilder->get_widget(CONFIG_MAKE_ENTRY_ID, makeEntry);
+  Gtk::Entry* runEntry;
+  refBuilder->get_widget(CONFIG_RUN_ENTRY_ID, runEntry);
+  Gtk::Entry* cuEntry;
+  refBuilder->get_widget(CONFIG_CU_ENTRY_ID, cuEntry);
+
+  // save to text file
+  std::ofstream configWriteFile(CONFIG_FILENAME);
+  if (configWriteFile) {
+    configWriteFile << makeEntry->get_text() + "\n" + runEntry->get_text() + "\n" + cuEntry->get_text();
+    configWriteFile.close();
+  }
+
+  // populate text views with file contents
+  set_text_views(cuEntry->get_text());
+}
+
+void get_config_from_file(std::string *makeConfig, std::string *runConfig, std::string *cuConfig) {
   // Create a text string, which is used to output the text file
   std::string configText;
 
   // Read from the text file
-  std::ifstream configReadFile("output/config.txt");
+  std::ifstream configReadFile(CONFIG_FILENAME);
 
   getline(configReadFile, configText);
-  set_text_entry(MAKE_ENTRY_ID, configText);
+  *makeConfig = configText;
 
   getline(configReadFile, configText);
-  set_text_entry(RUN_ENTRY_ID, configText);
+  *runConfig = configText;
 
   getline(configReadFile, configText);
-  set_text_entry(CU_ENTRY_ID, configText);
+  *cuConfig = configText;
 
   // Close the file
   configReadFile.close();
+}
 
+void init_config_from_file() {
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+  set_text_entry(CONFIG_MAKE_ENTRY_ID, makeConfig);
+  set_text_entry(CONFIG_RUN_ENTRY_ID, runConfig);
+  set_text_entry(CONFIG_CU_ENTRY_ID, cuConfig);
   save_config();
 }
 
@@ -112,6 +148,30 @@ std::string get_selected_text(Gtk::TextView *textView) {
 }
 
 void get_thread_output() {
+  // gui input => bash input
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+  Gtk::Entry* threadOutputValueEntry;
+  refBuilder->get_widget(THREAD_OUTPUT_VALUE_ENTRY_ID, threadOutputValueEntry);
+  std::string valueInput = threadOutputValueEntry->get_text();
+
+  Gtk::Entry* threadOutputValueTypeEntry;
+  refBuilder->get_widget(THREAD_OUTPUT_VALUE_TYPE_ENTRY_ID, threadOutputValueTypeEntry);
+  std::string typeInput = threadOutputValueTypeEntry->get_text();
+
+  Gtk::Entry* threadOutputLineEntry;
+  refBuilder->get_widget(THREAD_OUTPUT_LINE_ENTRY_ID, threadOutputLineEntry);
+  std::string lineInput = threadOutputLineEntry->get_text();
+
+  std::cout << "./threadOutput.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + typeInput + " -l " + lineInput << std::endl;;
+  
+  // TODO: run ./threadOutput.sh -m makeConfig -r runConfig -c cuConfig -v valueInput -t typeInput -l lineInput
+
+  // bash output => gui output
   threadOutputTreeModel = Gtk::ListStore::create(threadOutputColumns);
   Gtk::TreeView* treeView;
   refBuilder->get_widget(THREAD_OUTPUT_TREEVIEW_ID, treeView);
