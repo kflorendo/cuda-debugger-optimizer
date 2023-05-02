@@ -10,7 +10,7 @@
 #define CONFIG_SAVE_BUTTON_ID "config_save_button"
 
 
-#define DEBUG_TEXTVIEW_ID "debugtextview"
+#define DEBUG_TEXTVIEW_ID "debug_textview"
 
 #define SET_THREAD_OUTPUT_LINE_BUTTON_ID "set_thread_output_line_button"
 #define SET_THREAD_OUTPUT_VALUE_BUTTON_ID "set_thread_output_value_button"
@@ -35,21 +35,21 @@ class ThreadOutputColumns : public Gtk::TreeModel::ColumnRecord
 public:
 
   ThreadOutputColumns() {
-    add(m_col_grid_x);
-    add(m_col_grid_y);
-    add(m_col_grid_z);
     add(m_col_block_x);
     add(m_col_block_y);
     add(m_col_block_z);
+    add(m_col_thread_x);
+    add(m_col_thread_y);
+    add(m_col_thread_z);
     add(m_col_value);
   }
 
-  Gtk::TreeModelColumn<unsigned int> m_col_grid_x;
-  Gtk::TreeModelColumn<unsigned int> m_col_grid_y;
-  Gtk::TreeModelColumn<unsigned int> m_col_grid_z;
   Gtk::TreeModelColumn<unsigned int> m_col_block_x;
   Gtk::TreeModelColumn<unsigned int> m_col_block_y;
   Gtk::TreeModelColumn<unsigned int> m_col_block_z;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_z;
   Gtk::TreeModelColumn<std::string> m_col_value;
 };
 
@@ -127,27 +127,27 @@ void get_thread_output() {
     std::string token;
     auto row = *(threadOutputTreeModel->append());
     getline(lineStringStream, token, ' ');
-    row[threadOutputColumns.m_col_grid_x] = stoi(token);
-    getline(lineStringStream, token, ' ');
-    row[threadOutputColumns.m_col_grid_y] = stoi(token);
-    getline(lineStringStream, token, ' ');
-    row[threadOutputColumns.m_col_grid_z] = stoi(token);
-    getline(lineStringStream, token, ' ');
     row[threadOutputColumns.m_col_block_x] = stoi(token);
     getline(lineStringStream, token, ' ');
     row[threadOutputColumns.m_col_block_y] = stoi(token);
     getline(lineStringStream, token, ' ');
     row[threadOutputColumns.m_col_block_z] = stoi(token);
     getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_thread_x] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_thread_y] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_thread_z] = stoi(token);
+    getline(lineStringStream, token, ' ');
     row[threadOutputColumns.m_col_value] = token;
   }
 
-  treeView->append_column("Grid X", threadOutputColumns.m_col_grid_x);
-  treeView->append_column("Grid Y", threadOutputColumns.m_col_grid_y);
-  treeView->append_column("Grid Z", threadOutputColumns.m_col_grid_z);
   treeView->append_column("Block X", threadOutputColumns.m_col_block_x);
   treeView->append_column("Block Y", threadOutputColumns.m_col_block_y);
   treeView->append_column("Block Z", threadOutputColumns.m_col_block_z);
+  treeView->append_column("Thread X", threadOutputColumns.m_col_thread_x);
+  treeView->append_column("Thread Y", threadOutputColumns.m_col_thread_y);
+  treeView->append_column("Thread Z", threadOutputColumns.m_col_thread_z);
   treeView->append_column("Value", threadOutputColumns.m_col_value);
 }
 
@@ -234,9 +234,9 @@ void on_app_activate()
     return;
   }
 
-  // init_config_page();
+  init_config_page();
 
-  // init_debug_page();
+  init_debug_page();
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
