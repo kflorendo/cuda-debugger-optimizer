@@ -121,23 +121,21 @@ void get_thread_output() {
 
     std::istringstream lineStringStream(line);
     std::string token;
-    while ( getline( lineStringStream, token, ' ' ) ) {
-      auto row = *(threadOutputTreeModel->append());
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_grid_x] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_grid_y] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_grid_z] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_block_x] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_block_y] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_block_z] = stoi(token);
-      getline(lineStringStream, token, ' ');
-      row[threadOutputColumns.m_col_value] = token;
-    }
+    auto row = *(threadOutputTreeModel->append());
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_grid_x] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_grid_y] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_grid_z] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_block_x] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_block_y] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_block_z] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[threadOutputColumns.m_col_value] = token;
   }
 
   treeView->append_column("Grid X", threadOutputColumns.m_col_grid_x);
