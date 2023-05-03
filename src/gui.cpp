@@ -30,6 +30,12 @@
 
 #define OPT_CONFIG_TEXTVIEW_ID "opt_config_textview"
 
+#define OPT_CONFIG_DIM_ENTRY_ID_PREFIX "opt_config_dim_entry"
+#define SET_OPT_CONFIG_DIM_BUTTON_ID_PREFIX "set_opt_config_dim_button"
+#define OPT_CONFIG_DIM_START_ENTRY_ID_PREFIX "opt_config_dim_start_entry"
+#define OPT_CONFIG_DIM_STOP_ENTRY_ID_PREFIX "opt_config_dim_stop_entry"
+#define OPT_CONFIG_DIM_STEP_ENTRY_ID_PREFIX "opt_config_dim_step_entry"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -87,6 +93,28 @@ void set_text_views(std::string cuFileName) {
   }
 }
 
+void set_entry_from_textview(std::string buttonId, std::string textViewId, std::string entryId) {
+  Gtk::Button* setValueButton;
+  refBuilder->get_widget(buttonId, setValueButton);
+  setValueButton->signal_clicked().connect([textViewId, entryId] () {
+    Gtk::TextView* textView;
+    refBuilder->get_widget(textViewId, textView);
+    // get selected text in text view
+    Gtk::TextBuffer::iterator range_start;
+    Gtk::TextBuffer::iterator range_end;
+    std::string selected;
+    if (textView->get_buffer()->get_selection_bounds(range_start, range_end)) {
+      selected = textView->get_buffer()->get_text(range_start, range_end, true);
+    } else {
+      selected = "";
+    }
+    // set entry to selected text
+    Gtk::Entry* entry;
+    refBuilder->get_widget(entryId, entry);
+    entry->set_text(selected);
+  });
+}
+
 void save_config() {
   Gtk::Entry* makeEntry;
   refBuilder->get_widget(CONFIG_MAKE_ENTRY_ID, makeEntry);
@@ -139,15 +167,15 @@ void init_config_from_file() {
   save_config();
 }
 
-std::string get_selected_text(Gtk::TextView *textView) {
-  Gtk::TextBuffer::iterator range_start;
-  Gtk::TextBuffer::iterator range_end;
-  if (textView->get_buffer()->get_selection_bounds(range_start, range_end)) {
-    return textView->get_buffer()->get_text(range_start, range_end, true);
-  } else {
-    return "";
-  }
-}
+// std::string get_selected_text(Gtk::TextView *textView) {
+//   Gtk::TextBuffer::iterator range_start;
+//   Gtk::TextBuffer::iterator range_end;
+//   if (textView->get_buffer()->get_selection_bounds(range_start, range_end)) {
+//     return textView->get_buffer()->get_text(range_start, range_end, true);
+//   } else {
+//     return "";
+//   }
+// }
 
 void get_thread_output() {
   // gui input => bash input
@@ -232,6 +260,17 @@ void get_thread_overwrite() {
   std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -l " + lineInput << std::endl;
 }
 
+void optimize_config() {
+  // gui input => bash input
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+
+}
+
 void init_config_page() {
   Gtk::Button* pConfigSaveButton;
   refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
@@ -246,16 +285,17 @@ void init_debug_page() {
   // TODO: set thread output line number to cursor position
   
   // set thread output value entry to cursor selection
-  Gtk::Button* pThreadOutputSetValueButton;
-  refBuilder->get_widget(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, pThreadOutputSetValueButton);
-  pThreadOutputSetValueButton->signal_clicked().connect([] () {
-    Gtk::TextView* debugTextView;
-    refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
-    std::string selected = get_selected_text(debugTextView);
-    Gtk::Entry* threadOutputEntry;
-    refBuilder->get_widget(THREAD_OUTPUT_VALUE_ENTRY_ID, threadOutputEntry);
-    threadOutputEntry->set_text(selected);
-  });
+  // Gtk::Button* pThreadOutputSetValueButton;
+  // refBuilder->get_widget(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, pThreadOutputSetValueButton);
+  // pThreadOutputSetValueButton->signal_clicked().connect([] () {
+  //   Gtk::TextView* debugTextView;
+  //   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
+  //   std::string selected = get_selected_text(debugTextView);
+  //   Gtk::Entry* threadOutputEntry;
+  //   refBuilder->get_widget(THREAD_OUTPUT_VALUE_ENTRY_ID, threadOutputEntry);
+  //   threadOutputEntry->set_text(selected);
+  // });
+  set_entry_from_textview(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OUTPUT_VALUE_ENTRY_ID);
 
   // thread output button
   Gtk::Button* pThreadOutputButton;
@@ -268,16 +308,17 @@ void init_debug_page() {
   // TODO: set thread overwrite line number to cursor position
 
   // set thread overwrite value entry to cursor selection
-  Gtk::Button* pThreadOverwriteSetValueButton;
-  refBuilder->get_widget(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, pThreadOverwriteSetValueButton);
-  pThreadOverwriteSetValueButton->signal_clicked().connect([] () {
-    Gtk::TextView* debugTextView;
-    refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
-    std::string selected = get_selected_text(debugTextView);
-    Gtk::Entry* threadOverwriteValueEntry;
-    refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
-    threadOverwriteValueEntry->set_text(selected);
-  });
+  // Gtk::Button* pThreadOverwriteSetValueButton;
+  // refBuilder->get_widget(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, pThreadOverwriteSetValueButton);
+  // pThreadOverwriteSetValueButton->signal_clicked().connect([] () {
+  //   Gtk::TextView* debugTextView;
+  //   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
+  //   std::string selected = get_selected_text(debugTextView);
+  //   Gtk::Entry* threadOverwriteValueEntry;
+  //   refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
+  //   threadOverwriteValueEntry->set_text(selected);
+  // });
+  set_entry_from_textview(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OVERWRITE_VALUE_ENTRY_ID);
 
   // thread overwrite button
   Gtk::Button* pThreadOverwriteButton;
