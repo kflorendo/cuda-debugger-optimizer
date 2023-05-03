@@ -99,6 +99,26 @@ public:
 OptimizeConfigColumns optimizeConfigColumns;
 Glib::RefPtr<Gtk::ListStore> optimizeConfigTreeModel;
 
+struct OptimizeConfigResult {
+  int gridX;
+  int gridY;
+  int gridZ;
+  int blockX;
+  int blockY;
+  int blockZ;
+  int time;
+
+  OptimizeConfigResult(int gX, int gY, int gZ, int bX, int bY, int bZ, int t) : gridX(gX), gridY(gY), gridZ(gZ), blockX(bX), blockY(bY), blockZ(bZ), time(t) {}
+};
+
+// Sorts results in increasing time order (fastest config to slowest config)
+struct LessThanKeyOptimizeConfigResult {
+  inline bool operator() (const OptimizeConfigResult& struct1, const OptimizeConfigResult& struct2)
+  {
+      return (struct1.time < struct2.time);
+  }
+};
+
 void set_text_entry(std::string id, std::string text)
 {
   Gtk::Entry* pEntry;
@@ -375,7 +395,7 @@ void optimize_config() {
 
   std::string line;
   std::ifstream optimizeConfigFile("output/optimizeConfig.txt");
-  std::cout << numConfigs << std::endl;
+  std::vector<OptimizeConfigResult> results;
   for (int config = 0; config < numConfigs; config++) {
     // get first line
     getline(optimizeConfigFile, line);
@@ -384,19 +404,25 @@ void optimize_config() {
     std::istringstream lineStringStream(line);
     std::string token;
     float time = 0.0f;
-    auto row = *(optimizeConfigTreeModel->append());
+    // auto row = *(optimizeConfigTreeModel->append());
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_grid_x] = stoi(token);
+    int gridX = stoi(token);
+    // row[optimizeConfigColumns.m_col_grid_x] = stoi(token);
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_grid_y] = stoi(token);
+    int gridY = stoi(token);
+    // row[optimizeConfigColumns.m_col_grid_y] = stoi(token);
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_grid_z] = stoi(token);
+    int gridZ = stoi(token);
+    // row[optimizeConfigColumns.m_col_grid_z] = stoi(token);
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_block_x] = stoi(token);
+    int blockX = stoi(token);
+    // row[optimizeConfigColumns.m_col_block_x] = stoi(token);
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_block_y] = stoi(token);
+    int blockY = stoi(token);
+    // row[optimizeConfigColumns.m_col_block_y] = stoi(token);
     getline(lineStringStream, token, ' ');
-    row[optimizeConfigColumns.m_col_block_z] = stoi(token);
+    int blockZ = stoi(token);
+    // row[optimizeConfigColumns.m_col_block_z] = stoi(token);
     getline(lineStringStream, token, ' ');
     time += stof(token);
 
@@ -415,8 +441,23 @@ void optimize_config() {
 
     // calculate average time in microseconds
     int avgtime = time / 3 * 1000000;
-    row[optimizeConfigColumns.m_col_time] = avgtime;
+    // row[optimizeConfigColumns.m_col_time] = avgtime;
     
+    results.push_back(OptimizeConfigResult(gridX, gridY, gridZ, blockX, blockY, blockZ, avgtime));
+  }
+
+  std::sort(results.begin(), results.end(), LessThanKeyOptimizeConfigResult());
+
+  // populate tree with rows
+  for (int i = 0; i < results.size(); i++) {
+    auto row = *(optimizeConfigTreeModel->append());
+    row[optimizeConfigColumns.m_col_grid_x] = results[i].gridX;
+    row[optimizeConfigColumns.m_col_grid_y] = results[i].gridY;
+    row[optimizeConfigColumns.m_col_grid_z] = results[i].gridZ;
+    row[optimizeConfigColumns.m_col_block_x] = results[i].blockX;
+    row[optimizeConfigColumns.m_col_block_y] = results[i].blockY;
+    row[optimizeConfigColumns.m_col_block_z] = results[i].blockZ;
+    row[optimizeConfigColumns.m_col_time] = results[i].time;
   }
 
   treeView->append_column("Grid X", optimizeConfigColumns.m_col_grid_x);
@@ -426,6 +467,7 @@ void optimize_config() {
   treeView->append_column("Block Y", optimizeConfigColumns.m_col_block_y);
   treeView->append_column("Block Z", optimizeConfigColumns.m_col_block_z);
   treeView->append_column("Time", optimizeConfigColumns.m_col_time);
+
 }
 
 void init_config_page() {
