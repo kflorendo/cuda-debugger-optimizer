@@ -26,6 +26,8 @@
 #define SET_THREAD_OVERWRITE_VALUE_BUTTON_ID "set_thread_overwrite_value_button"
 #define THREAD_OVERWRITE_LINE_ENTRY_ID "thread_overwrite_line_entry"
 #define THREAD_OVERWRITE_VALUE_ENTRY_ID "thread_overwrite_value_entry"
+#define THREAD_OVERWRITE_VALUE_TYPE_ENTRY_ID "thread_overwrite_value_type_entry"
+#define THREAD_OVERWRITE_IS_ARRAY_CHECKBOX_ID "thread_overwrite_is_array_checkbox"
 #define THREAD_OVERWRITE_SUBMIT_BUTTON_ID "thread_overwrite_button"
 #define THREAD_OVERWRITE_TREEVIEW_ID "thread_overwrite_treeview"
 
@@ -327,7 +329,15 @@ void get_thread_overwrite() {
   refBuilder->get_widget(THREAD_OVERWRITE_LINE_ENTRY_ID, threadOverwriteLineEntry);
   std::string lineInput = threadOverwriteLineEntry->get_text();
 
-  std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -l " + lineInput << std::endl;
+  Gtk::Entry* threadOverwriteValueTypeEntry;
+  refBuilder->get_widget(THREAD_OVERWRITE_VALUE_TYPE_ENTRY_ID, threadOverwriteValueTypeEntry);
+  std::string valueTypeInput = threadOverwriteValueTypeEntry->get_text();
+
+  Gtk::CheckButton* threadOverwriteCheckButton;
+  refBuilder->get_widget(THREAD_OVERWRITE_IS_ARRAY_CHECKBOX_ID, threadOverwriteCheckButton);
+  std::string isArrayInput = (threadOverwriteCheckButton->get_active()) ? "y" : "n";
+
+  std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + valueTypeInput + " -l " + lineInput + " -a " + isArrayInput << std::endl;
 
   // bash output => gui output
   threadOverwriteTreeModel = Gtk::TreeStore::create(threadOverwriteColumns);
