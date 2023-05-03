@@ -30,6 +30,7 @@
 
 #define OPT_CONFIG_TEXTVIEW_ID "opt_config_textview"
 
+#define OPT_CONFIG_DIM_CHECKBOX_ID_PREFIX "opt_config_dim_checkbox"
 #define OPT_CONFIG_DIM_ENTRY_ID_PREFIX "opt_config_dim_entry"
 #define SET_OPT_CONFIG_DIM_BUTTON_ID_PREFIX "set_opt_config_dim_button"
 #define OPT_CONFIG_DIM_START_ENTRY_ID_PREFIX "opt_config_dim_start_entry"
@@ -268,7 +269,69 @@ void optimize_config() {
 
   get_config_from_file(&makeConfig, &runConfig, &cuConfig);
 
+  std::string blockDimNames = "";
+  std::string gridDimNames = "";
+  std::string configValues = "";
+  std::vector<std::vector<int>> ranges;
 
+  for (int i = 0; i < 6; i++) {
+    std::string iStr = std::to_string(i);
+    Gtk::CheckButton* checkBox;
+    refBuilder->get_widget(OPT_CONFIG_DIM_CHECKBOX_ID_PREFIX + iStr, checkBox);
+    Gtk::Entry* entry;
+    refBuilder->get_widget(OPT_CONFIG_DIM_ENTRY_ID_PREFIX + iStr, entry);
+    Gtk::Entry* startEntry;
+    refBuilder->get_widget(OPT_CONFIG_DIM_START_ENTRY_ID_PREFIX + iStr, startEntry);
+    Gtk::Entry* stopEntry;
+    refBuilder->get_widget(OPT_CONFIG_DIM_STOP_ENTRY_ID_PREFIX + iStr, stopEntry);
+    Gtk::Entry* stepEntry;
+    refBuilder->get_widget(OPT_CONFIG_DIM_STEP_ENTRY_ID_PREFIX + iStr, stepEntry);
+    // if (checkBox->get_active()) {
+    std::vector<int> range;
+    if (checkBox->get_active()) {
+      if (i < 3) {
+        blockDimNames += entry->get_text() + ",";
+      } else {
+        gridDimNames += entry->get_text() + ",";
+      }
+      int start = stoi(std::string(startEntry->get_text()));
+      int stop = stoi(std::string(stopEntry->get_text()));
+      int step = stoi(std::string(stepEntry->get_text()));
+      for (int dim = start; dim <= stop; dim *= step) {
+        range.push_back(dim);
+      }
+    } else {
+      if (i < 3) {
+        blockDimNames += ",";
+      } else {
+        gridDimNames += ",";
+      }
+      
+      range.push_back(0); // add dummy value (gets ignored by bash script)
+    }
+    ranges.push_back(range);
+  }
+
+  for (int gridX : ranges[0]) {
+    for (int gridY : ranges[1]) {
+      for (int gridZ : ranges[2]) {
+        for (int blockX : ranges[3]) {
+          for (int blockY : ranges[4]) {
+            for (int blockZ : ranges[5]) {
+              configValues += std::to_string(gridX) + " " + std::to_string(gridY) + " " + std::to_string(gridZ) + " " + std::to_string(blockX) + " " + std::to_string(blockY) + " " + std::to_string(blockZ) + ",";
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // remove last comma
+  configValues.pop_back();
+
+  std::cout << blockDimNames << std::endl;
+  std::cout << gridDimNames << std::endl;
+  std::cout << configValues << std::endl;
 }
 
 void init_config_page() {
