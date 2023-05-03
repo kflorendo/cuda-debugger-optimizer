@@ -37,6 +37,9 @@
 #define OPT_CONFIG_DIM_STOP_ENTRY_ID_PREFIX "opt_config_dim_stop_entry"
 #define OPT_CONFIG_DIM_STEP_ENTRY_ID_PREFIX "opt_config_dim_step_entry"
 
+#define OPT_CONFIG_TEST_CONFIG_BUTTON_ID "opt_config_test_config_button"
+#define OPT_CONFIG_TREEVIEW_ID "opt_config_treeview"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -68,8 +71,33 @@ public:
 };
 
 ThreadOutputColumns threadOutputColumns;
-
 Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
+
+class OptimizeConfigColumns : public Gtk::TreeModel::ColumnRecord
+{
+public:
+
+  OptimizeConfigColumns() {
+    add(m_col_grid_x);
+    add(m_col_grid_y);
+    add(m_col_grid_z);
+    add(m_col_block_x);
+    add(m_col_block_y);
+    add(m_col_block_z);
+    add(m_col_time);
+  }
+
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_grid_z;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_z;
+  Gtk::TreeModelColumn<unsigned int> m_col_time;
+};
+
+OptimizeConfigColumns optimizeConfigColumns;
+Glib::RefPtr<Gtk::ListStore> optimizeConfigTreeModel;
 
 void set_text_entry(std::string id, std::string text)
 {
@@ -312,6 +340,7 @@ void optimize_config() {
     ranges.push_back(range);
   }
 
+  int numConfigs = 0;
   for (int gridX : ranges[0]) {
     for (int gridY : ranges[1]) {
       for (int gridZ : ranges[2]) {
@@ -319,6 +348,7 @@ void optimize_config() {
           for (int blockY : ranges[4]) {
             for (int blockZ : ranges[5]) {
               configValues += std::to_string(gridX) + " " + std::to_string(gridY) + " " + std::to_string(gridZ) + " " + std::to_string(blockX) + " " + std::to_string(blockY) + " " + std::to_string(blockZ) + ",";
+              numConfigs++;
             }
           }
         }
@@ -332,6 +362,70 @@ void optimize_config() {
   std::cout << blockDimNames << std::endl;
   std::cout << gridDimNames << std::endl;
   std::cout << configValues << std::endl;
+
+  // TODO: run script
+  numConfigs = 3; // REMOVE THIS (this is for dummy data)
+
+  // display output
+  // bash output => gui output
+  optimizeConfigTreeModel = Gtk::ListStore::create(optimizeConfigColumns);
+  Gtk::TreeView* treeView;
+  refBuilder->get_widget(OPT_CONFIG_TREEVIEW_ID, treeView);
+  treeView->set_model(optimizeConfigTreeModel);
+
+  std::string line;
+  std::ifstream optimizeConfigFile("output/optimizeConfig.txt");
+  std::cout << numConfigs << std::endl;
+  for (int config = 0; config < numConfigs; config++) {
+    // get first line
+    getline(optimizeConfigFile, line);
+    std::cout << "out" + line << std::endl;
+
+    std::istringstream lineStringStream(line);
+    std::string token;
+    float time = 0.0f;
+    auto row = *(optimizeConfigTreeModel->append());
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_grid_x] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_grid_y] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_grid_z] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_block_x] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_block_y] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    row[optimizeConfigColumns.m_col_block_z] = stoi(token);
+    getline(lineStringStream, token, ' ');
+    time += stof(token);
+
+    // get next 2 lines (same config, but just access the time)
+    for (int i = 0; i < 2; i++) {
+      getline(optimizeConfigFile, line);
+      std::cout << "in" + line << std::endl;
+      // ignore first 6 tokens
+      for (int j = 0; j < 6; j++) {
+        getline(lineStringStream, token, ' ');
+      }
+      // get elapsed time (7th token)
+      getline(lineStringStream, token, ' ');
+      time += stof(token);
+    }
+
+    // calculate average time in microseconds
+    int avgtime = time / 3 * 1000000;
+    row[optimizeConfigColumns.m_col_time] = avgtime;
+    
+  }
+
+  treeView->append_column("Grid X", optimizeConfigColumns.m_col_grid_x);
+  treeView->append_column("Grid Y", optimizeConfigColumns.m_col_grid_y);
+  treeView->append_column("Grid Z", optimizeConfigColumns.m_col_grid_z);
+  treeView->append_column("Block X", optimizeConfigColumns.m_col_block_x);
+  treeView->append_column("Block Y", optimizeConfigColumns.m_col_block_y);
+  treeView->append_column("Block Z", optimizeConfigColumns.m_col_block_z);
+  treeView->append_column("Time", optimizeConfigColumns.m_col_time);
 }
 
 void init_config_page() {
@@ -377,6 +471,13 @@ void init_optimize_page() {
     // set thread output value entry to cursor selection
     set_entry_from_textview(SET_OPT_CONFIG_DIM_BUTTON_ID_PREFIX + iStr, OPT_CONFIG_TEXTVIEW_ID, OPT_CONFIG_DIM_ENTRY_ID_PREFIX + iStr);
   }
+
+  // test config button
+  Gtk::Button* testConfigButton;
+  refBuilder->get_widget(OPT_CONFIG_TEST_CONFIG_BUTTON_ID, testConfigButton);
+  testConfigButton->signal_clicked().connect([] () { 
+    optimize_config();
+  });
 }
 
 void on_app_activate()
