@@ -381,6 +381,7 @@ void optimize_config() {
 
   // TODO: run script
   numConfigs = 3; // REMOVE THIS (this is for dummy data)
+  std::cout << "./optimizeConfig.sh -m " + makeConfig + " -r " + runConfig + " -b " + blockDimNames + " -g " + gridDimNames + " -v " + configValues << std::endl;
 
   // display output
   // bash output => gui output
