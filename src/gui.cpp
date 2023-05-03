@@ -285,16 +285,6 @@ void init_debug_page() {
   // TODO: set thread output line number to cursor position
   
   // set thread output value entry to cursor selection
-  // Gtk::Button* pThreadOutputSetValueButton;
-  // refBuilder->get_widget(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, pThreadOutputSetValueButton);
-  // pThreadOutputSetValueButton->signal_clicked().connect([] () {
-  //   Gtk::TextView* debugTextView;
-  //   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
-  //   std::string selected = get_selected_text(debugTextView);
-  //   Gtk::Entry* threadOutputEntry;
-  //   refBuilder->get_widget(THREAD_OUTPUT_VALUE_ENTRY_ID, threadOutputEntry);
-  //   threadOutputEntry->set_text(selected);
-  // });
   set_entry_from_textview(SET_THREAD_OUTPUT_VALUE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OUTPUT_VALUE_ENTRY_ID);
 
   // thread output button
@@ -308,16 +298,6 @@ void init_debug_page() {
   // TODO: set thread overwrite line number to cursor position
 
   // set thread overwrite value entry to cursor selection
-  // Gtk::Button* pThreadOverwriteSetValueButton;
-  // refBuilder->get_widget(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, pThreadOverwriteSetValueButton);
-  // pThreadOverwriteSetValueButton->signal_clicked().connect([] () {
-  //   Gtk::TextView* debugTextView;
-  //   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, debugTextView);
-  //   std::string selected = get_selected_text(debugTextView);
-  //   Gtk::Entry* threadOverwriteValueEntry;
-  //   refBuilder->get_widget(THREAD_OVERWRITE_VALUE_ENTRY_ID, threadOverwriteValueEntry);
-  //   threadOverwriteValueEntry->set_text(selected);
-  // });
   set_entry_from_textview(SET_THREAD_OVERWRITE_VALUE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OVERWRITE_VALUE_ENTRY_ID);
 
   // thread overwrite button
@@ -326,6 +306,14 @@ void init_debug_page() {
   pThreadOverwriteButton->signal_clicked().connect([] () { 
     get_thread_overwrite();
   });
+}
+
+void init_optimize_page() {
+  for (int i = 0; i < 6; i++) {
+    std::string iStr = std::to_string(i);
+    // set thread output value entry to cursor selection
+    set_entry_from_textview(SET_OPT_CONFIG_DIM_BUTTON_ID_PREFIX + iStr, OPT_CONFIG_TEXTVIEW_ID, OPT_CONFIG_DIM_ENTRY_ID_PREFIX + iStr);
+  }
 }
 
 void on_app_activate()
@@ -366,6 +354,8 @@ void on_app_activate()
   init_config_page();
 
   init_debug_page();
+
+  init_optimize_page();
 
   // It's not possible to delete widgets after app->run() has returned.
   // Delete the window with its child widgets before app->run() returns.
