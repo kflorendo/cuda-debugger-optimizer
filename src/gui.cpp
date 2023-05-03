@@ -27,6 +27,7 @@
 #define THREAD_OVERWRITE_LINE_ENTRY_ID "thread_overwrite_line_entry"
 #define THREAD_OVERWRITE_VALUE_ENTRY_ID "thread_overwrite_value_entry"
 #define THREAD_OVERWRITE_SUBMIT_BUTTON_ID "thread_overwrite_button"
+#define THREAD_OVERWRITE_TREEVIEW_ID "thread_overwrite_treeview"
 
 #define OPT_CONFIG_TEXTVIEW_ID "opt_config_textview"
 
@@ -72,6 +73,36 @@ public:
 
 ThreadOutputColumns threadOutputColumns;
 Glib::RefPtr<Gtk::ListStore> threadOutputTreeModel;
+
+class ThreadOverwriteColumns : public Gtk::TreeModel::ColumnRecord
+{
+public:
+
+  ThreadOverwriteColumns() {
+    add(m_col_address);
+    add(m_col_block_x);
+    add(m_col_block_y);
+    add(m_col_block_z);
+    add(m_col_thread_x);
+    add(m_col_thread_y);
+    add(m_col_thread_z);
+    add(m_col_index);
+    add(m_col_value);
+  }
+
+  Gtk::TreeModelColumn<std::string> m_col_address;
+  Gtk::TreeModelColumn<std::string> m_col_block_x;
+  Gtk::TreeModelColumn<std::string> m_col_block_y;
+  Gtk::TreeModelColumn<std::string> m_col_block_z;
+  Gtk::TreeModelColumn<std::string> m_col_thread_x;
+  Gtk::TreeModelColumn<std::string> m_col_thread_y;
+  Gtk::TreeModelColumn<std::string> m_col_thread_z;
+  Gtk::TreeModelColumn<std::string> m_col_index;
+  Gtk::TreeModelColumn<std::string> m_col_value;
+};
+
+ThreadOverwriteColumns threadOverwriteColumns;
+Glib::RefPtr<Gtk::TreeStore> threadOverwriteTreeModel;
 
 class OptimizeConfigColumns : public Gtk::TreeModel::ColumnRecord
 {
@@ -216,16 +247,6 @@ void init_config_from_file() {
   save_config();
 }
 
-// std::string get_selected_text(Gtk::TextView *textView) {
-//   Gtk::TextBuffer::iterator range_start;
-//   Gtk::TextBuffer::iterator range_end;
-//   if (textView->get_buffer()->get_selection_bounds(range_start, range_end)) {
-//     return textView->get_buffer()->get_text(range_start, range_end, true);
-//   } else {
-//     return "";
-//   }
-// }
-
 void get_thread_output() {
   // gui input => bash input
   std::string makeConfig;
@@ -307,6 +328,62 @@ void get_thread_overwrite() {
   std::string lineInput = threadOverwriteLineEntry->get_text();
 
   std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -l " + lineInput << std::endl;
+
+  // bash output => gui output
+  threadOverwriteTreeModel = Gtk::TreeStore::create(threadOverwriteColumns);
+  Gtk::TreeView* treeView;
+  refBuilder->get_widget(THREAD_OVERWRITE_TREEVIEW_ID, treeView);
+  treeView->set_model(threadOverwriteTreeModel);
+
+  std::string line;
+  std::ifstream threadOverwriteFile("output/threadOverwrite.txt");
+
+  while (threadOverwriteFile) {
+    getline(threadOverwriteFile, line);
+
+    // split line by spaces
+    std::vector<std::string> tokens;
+    std::stringstream ss(line);
+    std::string token;
+    while (getline(ss, token, ' ')) {
+      tokens.push_back(token);
+    }
+
+    // address is the first token
+    auto addressRow = *(threadOverwriteTreeModel->append());
+    std::string address = tokens[0];
+    addressRow[threadOverwriteColumns.m_col_address] = address;
+
+    // rest of the tokens correspond to the threads that wrote to the address
+    for (int i = 1; i < tokens.size(); i++) {
+      std::stringstream ssTuple(tokens[i]);
+      std::vector<std::string> tuple;
+      std::string tokenTuple;
+      while (getline(ssTuple, tokenTuple, ',')) {
+        tuple.push_back(tokenTuple);
+      }
+      auto row = *(threadOverwriteTreeModel->append(addressRow.children()));
+      row[threadOverwriteColumns.m_col_address] = address;
+      row[threadOverwriteColumns.m_col_block_x] = tuple[0];
+      row[threadOverwriteColumns.m_col_block_y] = tuple[1];
+      row[threadOverwriteColumns.m_col_block_z] = tuple[2];
+      row[threadOverwriteColumns.m_col_thread_x] = tuple[3];
+      row[threadOverwriteColumns.m_col_thread_y] = tuple[4];
+      row[threadOverwriteColumns.m_col_thread_z] = tuple[5];
+      row[threadOverwriteColumns.m_col_index] = tuple[6];
+      row[threadOverwriteColumns.m_col_value] = tuple[7];
+    }
+  }
+
+  treeView->append_column("Address", threadOverwriteColumns.m_col_address);
+  treeView->append_column("Block X", threadOverwriteColumns.m_col_block_x);
+  treeView->append_column("Block Y", threadOverwriteColumns.m_col_block_y);
+  treeView->append_column("Block Z", threadOverwriteColumns.m_col_block_z);
+  treeView->append_column("Thread X", threadOverwriteColumns.m_col_thread_x);
+  treeView->append_column("Thread Y", threadOverwriteColumns.m_col_thread_y);
+  treeView->append_column("Thread Z", threadOverwriteColumns.m_col_thread_z);
+  treeView->append_column("Index", threadOverwriteColumns.m_col_index);
+  treeView->append_column("Value", threadOverwriteColumns.m_col_value);
 }
 
 void optimize_config() {

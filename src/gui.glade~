@@ -245,7 +245,7 @@
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">440</property>
+                            <property name="width-request">480</property>
                             <property name="height-request">550</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
@@ -304,7 +304,7 @@
                             <property name="receives-default">True</property>
                           </object>
                           <packing>
-                            <property name="y">124</property>
+                            <property name="y">164</property>
                           </packing>
                         </child>
                         <child>
@@ -368,6 +368,52 @@
                           <packing>
                             <property name="x">174</property>
                             <property name="y">74</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="width-request">480</property>
+                            <property name="height-request">550</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="shadow-type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="thread_overwrite_treeview">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">220</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_overwrite_value_type_entry">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
+                          </object>
+                          <packing>
+                            <property name="y">114</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkCheckButton" id="thread_overwrite_is_array_checkbox">
+                            <property name="label" translatable="yes">Is Array Element?</property>
+                            <property name="width-request">124</property>
+                            <property name="height-request">20</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">False</property>
+                            <property name="draw-indicator">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">176</property>
+                            <property name="y">122</property>
                           </packing>
                         </child>
                       </object>
@@ -961,7 +1007,7 @@
                                 <property name="margin-top">5</property>
                                 <property name="margin-bottom">5</property>
                                 <child>
-                                  <object class="GtkButton">
+                                  <object class="GtkButton" id="opt_config_test_config_button">
                                     <property name="label" translatable="yes">Test Configurations</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
