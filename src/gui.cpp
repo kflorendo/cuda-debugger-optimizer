@@ -379,10 +379,6 @@ void optimize_config() {
   // remove last comma
   configValues.pop_back();
 
-  std::cout << blockDimNames << std::endl;
-  std::cout << gridDimNames << std::endl;
-  std::cout << configValues << std::endl;
-
   // TODO: run script
   numConfigs = 3; // REMOVE THIS (this is for dummy data)
 
@@ -399,37 +395,28 @@ void optimize_config() {
   for (int config = 0; config < numConfigs; config++) {
     // get first line
     getline(optimizeConfigFile, line);
-    std::cout << "out" + line << std::endl;
 
     std::istringstream lineStringStream(line);
     std::string token;
     float time = 0.0f;
-    // auto row = *(optimizeConfigTreeModel->append());
     getline(lineStringStream, token, ' ');
     int gridX = stoi(token);
-    // row[optimizeConfigColumns.m_col_grid_x] = stoi(token);
     getline(lineStringStream, token, ' ');
     int gridY = stoi(token);
-    // row[optimizeConfigColumns.m_col_grid_y] = stoi(token);
     getline(lineStringStream, token, ' ');
     int gridZ = stoi(token);
-    // row[optimizeConfigColumns.m_col_grid_z] = stoi(token);
     getline(lineStringStream, token, ' ');
     int blockX = stoi(token);
-    // row[optimizeConfigColumns.m_col_block_x] = stoi(token);
     getline(lineStringStream, token, ' ');
     int blockY = stoi(token);
-    // row[optimizeConfigColumns.m_col_block_y] = stoi(token);
     getline(lineStringStream, token, ' ');
     int blockZ = stoi(token);
-    // row[optimizeConfigColumns.m_col_block_z] = stoi(token);
     getline(lineStringStream, token, ' ');
     time += stof(token);
 
     // get next 2 lines (same config, but just access the time)
     for (int i = 0; i < 2; i++) {
       getline(optimizeConfigFile, line);
-      std::cout << "in" + line << std::endl;
       // ignore first 6 tokens
       for (int j = 0; j < 6; j++) {
         getline(lineStringStream, token, ' ');
@@ -466,7 +453,7 @@ void optimize_config() {
   treeView->append_column("Block X", optimizeConfigColumns.m_col_block_x);
   treeView->append_column("Block Y", optimizeConfigColumns.m_col_block_y);
   treeView->append_column("Block Z", optimizeConfigColumns.m_col_block_z);
-  treeView->append_column("Time", optimizeConfigColumns.m_col_time);
+  treeView->append_column("Time (microseconds)", optimizeConfigColumns.m_col_time);
 
 }
 
