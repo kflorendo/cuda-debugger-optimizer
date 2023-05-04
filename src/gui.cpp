@@ -70,9 +70,9 @@
 
 #define MEMORY_BOTTLENECK_BUTTON_ID "memory_bottleneck_button"
 
-#define SPEEDUP_SEQUENTIAL_ENTRY_ID "speedup_sequential_entry_id"
-#define SPEEDUP_BUTTON_ID "speedup_button_id"
-#define SPEEDUP_RESULT_LABEL_ID "speedup_result_label_id"
+#define SPEEDUP_SEQUENTIAL_ENTRY_ID "speedup_sequential_entry"
+#define SPEEDUP_BUTTON_ID "speedup_button"
+#define SPEEDUP_RESULT_LABEL_ID "speedup_result_label"
 
 namespace
 {
@@ -774,6 +774,30 @@ void get_memory_bottleneck() {
   timeThroughputImage->set(timeThroughput);
 }
 
+void get_speedup() {
+  // gui input => bash input
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+  Gtk::Entry* sequentialEntry;
+  refBuilder->get_widget(SPEEDUP_SEQUENTIAL_ENTRY_ID, sequentialEntry);
+  std::string sequentialRunCommand = sequentialEntry->get_text();
+
+  // TODO: run command
+  std::cout << "./speedup.sh -s " + sequentialRunCommand + " -p " + runConfig;
+
+  std::string line;
+  std::ifstream speedupFile("output/speedup.txt");
+  getline(speedupFile, line);
+
+  Gtk::Label* speedupResult;
+  refBuilder->get_widget(SPEEDUP_RESULT_LABEL_ID, speedupResult);
+  speedupResult->set_text("The speedup of the parallel over sequential program is " + line + " times.");
+}
+
 void init_config_page() {
   Gtk::Button* pConfigSaveButton;
   refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
@@ -856,6 +880,13 @@ void init_optimize_page() {
   refBuilder->get_widget(MEMORY_BOTTLENECK_BUTTON_ID, memoryBottleneckButton);
   memoryBottleneckButton->signal_clicked().connect([] () { 
     get_memory_bottleneck();
+  });
+
+  // speedup button
+  Gtk::Button* speedupButton;
+  refBuilder->get_widget(SPEEDUP_BUTTON_ID, speedupButton);
+  speedupButton->signal_clicked().connect([] () { 
+    get_speedup();
   });
 }
 

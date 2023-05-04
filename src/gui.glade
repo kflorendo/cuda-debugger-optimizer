@@ -1676,7 +1676,6 @@
                         <child>
                           <object class="GtkLabel" id="speedup_result_label">
                             <property name="width-request">100</property>
-                            <property name="height-request">80</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                           </object>
