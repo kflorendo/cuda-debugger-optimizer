@@ -126,6 +126,30 @@ public:
 ThreadOverwriteColumns threadOverwriteColumns;
 Glib::RefPtr<Gtk::TreeStore> threadOverwriteTreeModel;
 
+class BreakpointColumns : public Gtk::TreeModel::ColumnRecord
+{
+public:
+
+  BreakpointColumns() {
+    add(m_col_block_x);
+    add(m_col_block_y);
+    add(m_col_block_z);
+    add(m_col_thread_x);
+    add(m_col_thread_y);
+    add(m_col_thread_z);
+  }
+
+  Gtk::TreeModelColumn<unsigned int> m_col_block_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_block_z;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_x;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_y;
+  Gtk::TreeModelColumn<unsigned int> m_col_thread_z;
+};
+
+BreakpointColumns breakpointColumns;
+Glib::RefPtr<Gtk::ListStore> breakpointTreeModel;
+
 class OptimizeConfigColumns : public Gtk::TreeModel::ColumnRecord
 {
 public:
@@ -462,6 +486,40 @@ void get_breakpoint() {
   std::string lineInput = breakpointLineEntry->get_text();
 
   std::cout << "./breakpoint.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -l " + lineInput << std::endl;
+
+  // bash output => gui output
+  breakpointTreeModel = Gtk::ListStore::create(breakpointColumns);
+  Gtk::TreeView* treeView;
+  refBuilder->get_widget(BREAKPOINT_TREEVIEW_ID, treeView);
+  treeView->set_model(breakpointTreeModel);
+
+  std::string line;
+  std::ifstream breakpointFile("output/threadbp.txt");
+
+  while (getline(breakpointFile, line)) {
+    // split line by spaces
+    std::vector<std::string> tokens;
+    std::stringstream ss(line);
+    std::string token;
+    while (getline(ss, token, ' ')) {
+      tokens.push_back(token);
+    }
+
+    auto row = *(breakpointTreeModel->append());
+    row[breakpointColumns.m_col_block_x] = stoi(tokens[0]);
+    row[breakpointColumns.m_col_block_y] = stoi(tokens[1]);
+    row[breakpointColumns.m_col_block_z] = stoi(tokens[2]);
+    row[breakpointColumns.m_col_thread_x] = stoi(tokens[3]);
+    row[breakpointColumns.m_col_thread_y] = stoi(tokens[4]);
+    row[breakpointColumns.m_col_thread_z] = stoi(tokens[5]);
+  }
+
+  treeView->append_column("Block X", breakpointColumns.m_col_block_x);
+  treeView->append_column("Block Y", breakpointColumns.m_col_block_y);
+  treeView->append_column("Block Z", breakpointColumns.m_col_block_z);
+  treeView->append_column("Thread X", breakpointColumns.m_col_thread_x);
+  treeView->append_column("Thread Y", breakpointColumns.m_col_thread_y);
+  treeView->append_column("Thread Z", breakpointColumns.m_col_thread_z);
 }
 
 void optimize_config() {
