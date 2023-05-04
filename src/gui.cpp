@@ -43,6 +43,14 @@
 #define OPT_CONFIG_TEST_CONFIG_BUTTON_ID "opt_config_test_config_button"
 #define OPT_CONFIG_TREEVIEW_ID "opt_config_treeview"
 
+#define OPT_CONFIG_GRAPH_ALL_IMAGE_ID "config_graph_all_image"
+#define OPT_CONFIG_GRAPH_GRIDX_IMAGE_ID "config_graph_gridx_image"
+#define OPT_CONFIG_GRAPH_GRIDY_IMAGE_ID "config_graph_gridy_image"
+#define OPT_CONFIG_GRAPH_GRIDZ_IMAGE_ID "config_graph_gridz_image"
+#define OPT_CONFIG_GRAPH_BLOCKX_IMAGE_ID "config_graph_blockx_image"
+#define OPT_CONFIG_GRAPH_BLOCKY_IMAGE_ID "config_graph_blocky_image"
+#define OPT_CONFIG_GRAPH_BLOCKZ_IMAGE_ID "config_graph_blockz_image"
+
 #define TIME_BOTTLENECK_PIECHART_BUTTON_ID "time_bottleneck_piechart_button"
 #define TIME_BOTTLENECK_PIECHART_IMAGE_ID "time_bottleneck_piechart_image"
 
@@ -583,6 +591,41 @@ void optimize_config() {
   treeView->append_column("Block Z", optimizeConfigColumns.m_col_block_z);
   treeView->append_column("Time (microseconds)", optimizeConfigColumns.m_col_time);
 
+  // display graphs
+  Gtk::Image* graphAllImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_ALL_IMAGE_ID, graphAllImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphAll = Gdk::Pixbuf::create_from_file("output/all.png", 350, 350);
+  graphAllImage->set(graphAll);
+
+  Gtk::Image* graphGridXImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDX_IMAGE_ID, graphGridXImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridX = Gdk::Pixbuf::create_from_file("output/gridx.png", 350, 350);
+  graphGridXImage->set(graphGridX);
+
+  Gtk::Image* graphGridYImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDY_IMAGE_ID, graphGridYImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridY = Gdk::Pixbuf::create_from_file("output/gridy.png", 350, 350);
+  graphGridYImage->set(graphGridY);
+
+  Gtk::Image* graphGridZImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDZ_IMAGE_ID, graphGridZImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridZ = Gdk::Pixbuf::create_from_file("output/gridz.png", 350, 350);
+  graphGridZImage->set(graphGridZ);
+
+  Gtk::Image* graphBlockXImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKX_IMAGE_ID, graphBlockXImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockX = Gdk::Pixbuf::create_from_file("output/blockx.png", 350, 350);
+  graphBlockXImage->set(graphBlockX);
+
+  Gtk::Image* graphBlockYImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKY_IMAGE_ID, graphBlockYImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockY = Gdk::Pixbuf::create_from_file("output/blocky.png", 350, 350);
+  graphBlockYImage->set(graphBlockY);
+
+  Gtk::Image* graphBlockZImage;
+  refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKZ_IMAGE_ID, graphBlockZImage);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockZ = Gdk::Pixbuf::create_from_file("output/blockz.png", 350, 350);
+  graphBlockZImage->set(graphBlockZ);
 }
 
 void get_time_bottleneck_piechart() {

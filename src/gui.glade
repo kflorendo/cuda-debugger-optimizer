@@ -1045,6 +1045,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_all_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                     </child>
                                     <child type="tab">
@@ -1061,6 +1069,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridx_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">1</property>
@@ -1081,6 +1097,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridy_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">2</property>
@@ -1101,6 +1125,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridz_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">3</property>
@@ -1121,6 +1153,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blockx_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">4</property>
@@ -1141,6 +1181,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blocky_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">5</property>
@@ -1161,6 +1209,14 @@
                                       <object class="GtkFixed">
                                         <property name="visible">True</property>
                                         <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blockz_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
                                       </object>
                                       <packing>
                                         <property name="position">6</property>
