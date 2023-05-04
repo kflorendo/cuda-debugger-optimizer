@@ -63,6 +63,13 @@
 #define SET_BREAKPOINT_LINE_BUTTON_ID "set_breakpoint_line_button"
 #define BREAKPOINT_TREEVIEW_ID "breakpoint_treeview"
 
+#define MEMORY_BOTTLENECK_STATIC_MEM_IMAGE_ID "static_mem_image"
+#define MEMORY_BOTTLENECK_DYNAMIC_MEM_IMAGE_ID "dynamic_mem_image"
+#define MEMORY_BOTTLENECK_MEMORY_SIZE_IMAGE_ID "memory_size_image"
+#define MEMORY_BOTTLENECK_THROUGHPUT_IMAGE_ID "throughput_image"
+
+#define MEMORY_BOTTLENECK_BUTTON_ID "memory_bottleneck_button"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -734,6 +741,35 @@ void get_time_bottleneck_timelines() {
   apiTimelineImage->set(apiTimeline);
 }
 
+void get_memory_bottleneck() {
+  // TODO: run script here
+
+  // display gpu image
+  Gtk::Image* timeStaticImage;
+  refBuilder->get_widget(MEMORY_BOTTLENECK_STATIC_MEM_IMAGE_ID, timeStaticImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> timeStatic = Gdk::Pixbuf::create_from_file("output/timestat.png", 500, 500);
+  timeStaticImage->set(timeStatic);
+
+  Gtk::Image* timeDynamicImage;
+  refBuilder->get_widget(MEMORY_BOTTLENECK_DYNAMIC_MEM_IMAGE_ID, timeDynamicImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> timeDynamic = Gdk::Pixbuf::create_from_file("output/timedynam.png", 500, 500);
+  timeDynamicImage->set(timeDynamic);
+
+  Gtk::Image* timeSizeImage;
+  refBuilder->get_widget(MEMORY_BOTTLENECK_MEMORY_SIZE_IMAGE_ID, timeSizeImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> timeSize = Gdk::Pixbuf::create_from_file("output/timesize.png", 500, 500);
+  timeSizeImage->set(timeSize);
+
+  Gtk::Image* timeThroughputImage;
+  refBuilder->get_widget(MEMORY_BOTTLENECK_THROUGHPUT_IMAGE_ID, timeThroughputImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> timeThroughput = Gdk::Pixbuf::create_from_file("output/timethru.png", 500, 500);
+  timeThroughputImage->set(timeThroughput);
+}
+
 void init_config_page() {
   Gtk::Button* pConfigSaveButton;
   refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
@@ -804,11 +840,18 @@ void init_optimize_page() {
     get_time_bottleneck_piechart();
   });
 
-  // time bottleneck pie chart
+  // timeline button
   Gtk::Button* timelineButton;
   refBuilder->get_widget(TIME_BOTTLENECK_TIMELINE_BUTTON_ID, timelineButton);
   timelineButton->signal_clicked().connect([] () { 
     get_time_bottleneck_timelines();
+  });
+
+  // memory bottleneck button
+  Gtk::Button* memoryBottleneckButton;
+  refBuilder->get_widget(MEMORY_BOTTLENECK_BUTTON_ID, memoryBottleneckButton);
+  memoryBottleneckButton->signal_clicked().connect([] () { 
+    get_memory_bottleneck();
   });
 }
 
