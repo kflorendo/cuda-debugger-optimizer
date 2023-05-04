@@ -432,12 +432,13 @@ void get_thread_overwrite() {
   refBuilder->get_widget(THREAD_OVERWRITE_IS_ARRAY_CHECKBOX_ID, threadOverwriteCheckButton);
   std::string isArrayInput = (threadOverwriteCheckButton->get_active()) ? "y" : "n";
 
-  std::string scriptCmd = "./threadOverwrite.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + valueTypeInput + "\" -l \"" + lineInput + "\" -a \"" + isArrayInput + "\"";
+  std::string scriptCmd = "./scripts/threadOverwrite.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + valueTypeInput + "\" -l \"" + lineInput + "\" -a \"" + isArrayInput + "\"";
   std::cout << scriptCmd << std::endl;
   if (IS_TEST) {
     std::cout << scriptCmd << std::endl;
   } else {
     system(scriptCmd.c_str());
+    std::cout << "finished writing bash script" << std::endl;
   }
 
   // bash output => gui output
@@ -449,9 +450,7 @@ void get_thread_overwrite() {
   std::string line;
   std::ifstream threadOverwriteFile(OUTPUT_FILE_PREFIX + "threadOverwrite.txt");
 
-  while (threadOverwriteFile) {
-    getline(threadOverwriteFile, line);
-
+  while (getline(threadOverwriteFile, line)) {
     // split line by spaces
     std::vector<std::string> tokens;
     std::stringstream ss(line);
@@ -510,7 +509,12 @@ void get_breakpoint() {
   refBuilder->get_widget(BREAKPOINT_LINE_ENTRY_ID, breakpointLineEntry);
   std::string lineInput = breakpointLineEntry->get_text();
 
-  std::cout << "./breakpoint.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -l " + lineInput << std::endl;
+  std::string scriptCmd = "./scripts/breakpoint.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -l \"" + lineInput + "\"";
+  if (IS_TEST) {
+    std::cout << scriptCmd << std::endl;
+  } else {
+    system(scriptCmd.c_str());
+  }
 
   // bash output => gui output
   breakpointTreeModel = Gtk::ListStore::create(breakpointColumns);
