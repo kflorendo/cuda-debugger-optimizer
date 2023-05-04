@@ -43,6 +43,9 @@
 #define OPT_CONFIG_TEST_CONFIG_BUTTON_ID "opt_config_test_config_button"
 #define OPT_CONFIG_TREEVIEW_ID "opt_config_treeview"
 
+#define TIME_BOTTLENECK_PIECHART_BUTTON_ID "time_bottleneck_piechart_button"
+#define TIME_BOTTLENECK_PIECHART_IMAGE_ID "time_bottleneck_piechart_image"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -578,6 +581,17 @@ void optimize_config() {
 
 }
 
+void get_time_bottleneck_piechart() {
+  // TODO: run script here
+  Gtk::Image* piechartImage;
+  refBuilder->get_widget(TIME_BOTTLENECK_PIECHART_IMAGE_ID, piechartImage);
+
+  // display pie chart
+  Glib::RefPtr<Gdk::Pixbuf> piechart = Gdk::Pixbuf::create_from_file("output/gprofTime.png", 900, 900);
+  // Glib::RefPtr<Gdk::Pixbuf> scaled = piechart->scale_simple(400, 500, Gdk::InterpType.BILINEAR);
+  piechartImage->set(piechart);
+}
+
 void init_config_page() {
   Gtk::Button* pConfigSaveButton;
   refBuilder->get_widget(CONFIG_SAVE_BUTTON_ID, pConfigSaveButton);
@@ -654,6 +668,13 @@ void init_optimize_page() {
   refBuilder->get_widget(OPT_CONFIG_TEST_CONFIG_BUTTON_ID, testConfigButton);
   testConfigButton->signal_clicked().connect([] () { 
     optimize_config();
+  });
+
+  // time bottleneck pie chart
+  Gtk::Button* pieChartButton;
+  refBuilder->get_widget(TIME_BOTTLENECK_PIECHART_BUTTON_ID, pieChartButton);
+  pieChartButton->signal_clicked().connect([] () { 
+    get_time_bottleneck_piechart();
   });
 }
 
