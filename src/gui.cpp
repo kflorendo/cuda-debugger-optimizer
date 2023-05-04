@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define CONFIG_FILENAME "scripts/output/config.txt"
+#define CONFIG_FILENAME "output/config.txt"
 
 #define CONFIG_MAKE_ENTRY_ID "make_entry"
 #define CONFIG_RUN_ENTRY_ID "run_entry"
@@ -361,14 +361,10 @@ void get_thread_output() {
   std::string lineInput = threadOutputLineEntry->get_text();
 
   std::string scriptCmd = "./scripts/threadOutput.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + typeInput + "\" -l " + lineInput;
-  if (IS_TEST) {
-    std::cout << scriptCmd << std::endl;
-  } else {
+  if (!IS_TEST) {
     system(scriptCmd.c_str());
   }
   
-  // TODO: run ./threadOutput.sh -m makeConfig -r runConfig -c cuConfig -v valueInput -t typeInput -l lineInput
-
   // bash output => gui output
   threadOutputTreeModel = Gtk::ListStore::create(threadOutputColumns);
   Gtk::TreeView* treeView;
@@ -434,11 +430,8 @@ void get_thread_overwrite() {
 
   std::string scriptCmd = "./scripts/threadOverwrite.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + valueTypeInput + "\" -l \"" + lineInput + "\" -a \"" + isArrayInput + "\"";
   std::cout << scriptCmd << std::endl;
-  if (IS_TEST) {
-    std::cout << scriptCmd << std::endl;
-  } else {
+  if (!IS_TEST) {
     system(scriptCmd.c_str());
-    std::cout << "finished writing bash script" << std::endl;
   }
 
   // bash output => gui output
@@ -510,9 +503,8 @@ void get_breakpoint() {
   std::string lineInput = breakpointLineEntry->get_text();
 
   std::string scriptCmd = "./scripts/breakpoint.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -l \"" + lineInput + "\"";
-  if (IS_TEST) {
-    std::cout << scriptCmd << std::endl;
-  } else {
+  std::cout << scriptCmd << std::endl;
+  if (!IS_TEST) {
     system(scriptCmd.c_str());
   }
 
@@ -623,8 +615,12 @@ void optimize_config() {
   configValues.pop_back();
 
   // TODO: run script
-  numConfigs = 3; // REMOVE THIS (this is for dummy data)
-  std::cout << "./optimizeConfig.sh -m " + makeConfig + " -r " + runConfig + " -b " + blockDimNames + " -g " + gridDimNames + " -v " + configValues << std::endl;
+  std::string scriptCmd = "./scripts/optimizeConfig.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -b \"" + blockDimNames + "\" -g \"" + gridDimNames + "\" -v \"" + configValues + "\"";
+  std::cout << scriptCmd << std::endl;
+  if (!IS_TEST) {
+    system(scriptCmd.c_str());
+    system("python3 ./scripts/config.py output/optimizeConfig.txt");
+  }
 
   // display output
   // bash output => gui output
@@ -708,32 +704,32 @@ void optimize_config() {
 
   Gtk::Image* graphGridXImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDX_IMAGE_ID, graphGridXImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridx.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridX.png", 350, 350);
   graphGridXImage->set(graphGridX);
 
   Gtk::Image* graphGridYImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDY_IMAGE_ID, graphGridYImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridy.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridY.png", 350, 350);
   graphGridYImage->set(graphGridY);
 
   Gtk::Image* graphGridZImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDZ_IMAGE_ID, graphGridZImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridz.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridZ.png", 350, 350);
   graphGridZImage->set(graphGridZ);
 
   Gtk::Image* graphBlockXImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKX_IMAGE_ID, graphBlockXImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockx.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockX.png", 350, 350);
   graphBlockXImage->set(graphBlockX);
 
   Gtk::Image* graphBlockYImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKY_IMAGE_ID, graphBlockYImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blocky.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockY.png", 350, 350);
   graphBlockYImage->set(graphBlockY);
 
   Gtk::Image* graphBlockZImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKZ_IMAGE_ID, graphBlockZImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockz.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockZ.png", 350, 350);
   graphBlockZImage->set(graphBlockZ);
 }
 

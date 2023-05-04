@@ -157,13 +157,13 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="x">760</property>
+                    <property name="x">770</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkNotebook">
                     <property name="width-request">750</property>
-                    <property name="height-request">800</property>
+                    <property name="height-request">840</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="tab-pos">left</property>
@@ -560,7 +560,7 @@
                 <child>
                   <object class="GtkNotebook">
                     <property name="width-request">1200</property>
-                    <property name="height-request">800</property>
+                    <property name="height-request">840</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="tab-pos">left</property>
@@ -572,8 +572,8 @@
                         <property name="can-focus">False</property>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">505</property>
-                            <property name="height-request">799</property>
+                            <property name="width-request">528</property>
+                            <property name="height-request">840</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
@@ -597,13 +597,13 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="x">555</property>
+                            <property name="x">575</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkNotebook">
                             <property name="width-request">544</property>
-                            <property name="height-request">799</property>
+                            <property name="height-request">838</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <child>
@@ -1097,7 +1097,7 @@
                                 </child>
                                 <child>
                                   <object class="GtkScrolledWindow">
-                                    <property name="width-request">530</property>
+                                    <property name="width-request">560</property>
                                     <property name="height-request">350</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
@@ -1119,7 +1119,7 @@
                                 <child>
                                   <object class="GtkNotebook">
                                     <property name="width-request">530</property>
-                                    <property name="height-request">0</property>
+                                    <property name="height-request">390</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <child>
