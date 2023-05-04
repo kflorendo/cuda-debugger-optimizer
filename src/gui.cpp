@@ -46,6 +46,10 @@
 #define TIME_BOTTLENECK_PIECHART_BUTTON_ID "time_bottleneck_piechart_button"
 #define TIME_BOTTLENECK_PIECHART_IMAGE_ID "time_bottleneck_piechart_image"
 
+#define TIME_BOTTLENECK_TIMELINE_BUTTON_ID "time_bottleneck_timeline_button"
+#define TIME_BOTTLENECK_GPU_TIMELINE_IMAGE_ID "time_bottleneck_gpu_timeline_image"
+#define TIME_BOTTLENECK_API_TIMELINE_IMAGE_ID "time_bottleneck_api_timeline_image"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -588,8 +592,25 @@ void get_time_bottleneck_piechart() {
 
   // display pie chart
   Glib::RefPtr<Gdk::Pixbuf> piechart = Gdk::Pixbuf::create_from_file("output/gprofTime.png", 900, 900);
-  // Glib::RefPtr<Gdk::Pixbuf> scaled = piechart->scale_simple(400, 500, Gdk::InterpType.BILINEAR);
   piechartImage->set(piechart);
+}
+
+void get_time_bottleneck_timelines() {
+  // TODO: run script here
+
+  // display gpu image
+  Gtk::Image* gpuTimelineImage;
+  refBuilder->get_widget(TIME_BOTTLENECK_GPU_TIMELINE_IMAGE_ID, gpuTimelineImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> gpuTimeline = Gdk::Pixbuf::create_from_file("output/timeBottleneckGpuTimeline.png", 500, 500);
+  gpuTimelineImage->set(gpuTimeline);
+
+  // display api image
+  Gtk::Image* apiTimelineImage;
+  refBuilder->get_widget(TIME_BOTTLENECK_API_TIMELINE_IMAGE_ID, apiTimelineImage);
+
+  Glib::RefPtr<Gdk::Pixbuf> apiTimeline = Gdk::Pixbuf::create_from_file("output/timeBottleneckApiTimeline.png", 500, 500);
+  apiTimelineImage->set(apiTimeline);
 }
 
 void init_config_page() {
@@ -675,6 +696,13 @@ void init_optimize_page() {
   refBuilder->get_widget(TIME_BOTTLENECK_PIECHART_BUTTON_ID, pieChartButton);
   pieChartButton->signal_clicked().connect([] () { 
     get_time_bottleneck_piechart();
+  });
+
+  // time bottleneck pie chart
+  Gtk::Button* timelineButton;
+  refBuilder->get_widget(TIME_BOTTLENECK_TIMELINE_BUTTON_ID, timelineButton);
+  timelineButton->signal_clicked().connect([] () { 
+    get_time_bottleneck_timelines();
   });
 }
 

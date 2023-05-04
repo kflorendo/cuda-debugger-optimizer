@@ -1094,7 +1094,7 @@
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkFixed" id="time_bottleneck_piechart_fixed">
+                                  <object class="GtkFixed">
                                     <property name="width-request">1060</property>
                                     <property name="height-request">700</property>
                                     <property name="visible">True</property>
@@ -1131,12 +1131,45 @@
                                 <property name="margin-top">5</property>
                                 <property name="margin-bottom">5</property>
                                 <child>
-                                  <object class="GtkButton">
+                                  <object class="GtkButton" id="time_bottleneck_timeline_button">
                                     <property name="label" translatable="yes">Generate Timelines</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="receives-default">True</property>
                                   </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFixed">
+                                    <property name="width-request">530</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="time_bottleneck_gpu_timeline_image">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="y">40</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkFixed">
+                                    <property name="width-request">560</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="time_bottleneck_api_timeline_image">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="x">530</property>
+                                    <property name="y">40</property>
+                                  </packing>
                                 </child>
                               </object>
                               <packing>
