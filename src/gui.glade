@@ -470,6 +470,38 @@
                             <property name="y">14</property>
                           </packing>
                         </child>
+                        <child>
+                          <object class="GtkButton" id="breakpoint_button">
+                            <property name="label" translatable="yes">Record Threads At Breakpoint</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">60</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="width-request">470</property>
+                            <property name="height-request">680</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="shadow-type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="breakpoint_treeview">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">110</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">2</property>

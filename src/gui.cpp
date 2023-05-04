@@ -58,6 +58,11 @@
 #define TIME_BOTTLENECK_GPU_TIMELINE_IMAGE_ID "time_bottleneck_gpu_timeline_image"
 #define TIME_BOTTLENECK_API_TIMELINE_IMAGE_ID "time_bottleneck_api_timeline_image"
 
+#define BREAKPOINT_BUTTON_ID "breakpoint_button"
+#define BREAKPOINT_LINE_ENTRY_ID "breakpoint_line_entry"
+#define SET_BREAKPOINT_LINE_BUTTON_ID "set_breakpoint_line_button"
+#define BREAKPOINT_TREEVIEW_ID "breakpoint_treeview"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;
@@ -444,6 +449,21 @@ void get_thread_overwrite() {
   treeView->append_column("Value", threadOverwriteColumns.m_col_value);
 }
 
+void get_breakpoint() {
+  // gui input => bash input
+  std::string makeConfig;
+  std::string runConfig;
+  std::string cuConfig;
+
+  get_config_from_file(&makeConfig, &runConfig, &cuConfig);
+
+  Gtk::Entry* breakpointLineEntry;
+  refBuilder->get_widget(BREAKPOINT_LINE_ENTRY_ID, breakpointLineEntry);
+  std::string lineInput = breakpointLineEntry->get_text();
+
+  std::cout << "./breakpoint.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -l " + lineInput << std::endl;
+}
+
 void optimize_config() {
   // gui input => bash input
   std::string makeConfig;
@@ -667,32 +687,7 @@ void init_config_page() {
 }
 
 void init_debug_page() {
-  // TODO: set thread output line number to cursor position
-  // Gtk::Button* pThreadOutputLineButton;
-  // refBuilder->get_widget(SET_THREAD_OUTPUT_LINE_BUTTON_ID, pThreadOutputLineButton);
-  // pThreadOutputLineButton->signal_clicked().connect([] () { 
-  //   Gtk::TextView* textView;
-  //   refBuilder->get_widget(DEBUG_TEXTVIEW_ID, textView);
-  //   // Gtk::TextBuffer::iterator range_start = textView->get_buffer()->get_iter_at_line(0);
-  //   Gtk::TextBuffer::iterator range_start = textView->get_buffer()->begin();
-  //   Gtk::TextBuffer::iterator range_end;
-  //   Gtk::TextBuffer::iterator range_end2;
-  //   textView->get_buffer()->get_selection_bounds(range_end, range_end2);
-  //   std::cout << textView->get_buffer()->get_text(range_start, range_end) << std::endl;
-
-  //   std::stringstream ss(textView->get_buffer()->get_text(range_start, range_end));
-  //   std::string line = "";
-  //   int numLines = 0;
-  //   while (getline(ss, line)) {
-  //     numLines++;
-  //   }
-  //   // account for cursor at start of a line
-  //   if (line == "") {
-  //     numLines++;
-  //   }
-  //   std::cout << numLines << std::endl;
-
-  // });
+  // set thread output line number to cursor position
   set_entry_from_textview_linenum(SET_THREAD_OUTPUT_LINE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OUTPUT_LINE_ENTRY_ID);
   
   // set thread output value entry to cursor selection
@@ -706,7 +701,7 @@ void init_debug_page() {
     get_thread_output();
   });
 
-  // TODO: set thread overwrite line number to cursor position
+  // set thread overwrite line number to cursor position
   set_entry_from_textview_linenum(SET_THREAD_OVERWRITE_LINE_BUTTON_ID, DEBUG_TEXTVIEW_ID, THREAD_OVERWRITE_LINE_ENTRY_ID);
 
   // set thread overwrite value entry to cursor selection
@@ -717,6 +712,16 @@ void init_debug_page() {
   refBuilder->get_widget(THREAD_OVERWRITE_SUBMIT_BUTTON_ID, pThreadOverwriteButton);
   pThreadOverwriteButton->signal_clicked().connect([] () { 
     get_thread_overwrite();
+  });
+
+  // set breakpoint line number to cursor position
+  set_entry_from_textview_linenum(SET_BREAKPOINT_LINE_BUTTON_ID, DEBUG_TEXTVIEW_ID, BREAKPOINT_LINE_ENTRY_ID);
+
+  // breakpoint button
+  Gtk::Button* pBreakpointButton;
+  refBuilder->get_widget(BREAKPOINT_BUTTON_ID, pBreakpointButton);
+  pBreakpointButton->signal_clicked().connect([] () { 
+    get_breakpoint();
   });
 }
 
