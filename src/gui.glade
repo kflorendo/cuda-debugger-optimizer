@@ -268,7 +268,7 @@
                           <object class="GtkEntry" id="thread_output_value_type_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
                           </object>
                           <packing>
                             <property name="y">114</property>
@@ -395,7 +395,7 @@
                           <object class="GtkEntry" id="thread_overwrite_value_type_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
                           </object>
                           <packing>
                             <property name="y">114</property>
