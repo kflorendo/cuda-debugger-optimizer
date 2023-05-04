@@ -70,6 +70,10 @@
 
 #define MEMORY_BOTTLENECK_BUTTON_ID "memory_bottleneck_button"
 
+#define SPEEDUP_SEQUENTIAL_ENTRY_ID "speedup_sequential_entry_id"
+#define SPEEDUP_BUTTON_ID "speedup_button_id"
+#define SPEEDUP_RESULT_LABEL_ID "speedup_result_label_id"
+
 namespace
 {
 Gtk::Window* pWindow = nullptr;

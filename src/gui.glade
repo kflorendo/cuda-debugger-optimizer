@@ -1341,7 +1341,7 @@
                         <child>
                           <object class="GtkNotebook">
                             <property name="width-request">1070</property>
-                            <property name="height-request">80</property>
+                            <property name="height-request">799</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <child>
@@ -1481,7 +1481,7 @@
                         <child>
                           <object class="GtkNotebook">
                             <property name="width-request">1090</property>
-                            <property name="height-request">80</property>
+                            <property name="height-request">750</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <child>
@@ -1519,10 +1519,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                   </object>
-                                  <packing>
-                                    <property name="x">-345</property>
-                                    <property name="y">220</property>
-                                  </packing>
                                 </child>
                               </object>
                               <packing>
@@ -1551,10 +1547,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                   </object>
-                                  <packing>
-                                    <property name="x">-357</property>
-                                    <property name="y">272</property>
-                                  </packing>
                                 </child>
                               </object>
                               <packing>
@@ -1583,10 +1575,6 @@
                                     <property name="visible">True</property>
                                     <property name="can-focus">False</property>
                                   </object>
-                                  <packing>
-                                    <property name="x">-348</property>
-                                    <property name="y">333</property>
-                                  </packing>
                                 </child>
                               </object>
                               <packing>
@@ -1606,7 +1594,7 @@
                             </child>
                           </object>
                           <packing>
-                            <property name="y">40</property>
+                            <property name="y">50</property>
                           </packing>
                         </child>
                         <child>
@@ -1614,7 +1602,7 @@
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                             <child>
-                              <object class="GtkButton" id="time_bottleneck_piechart_button1">
+                              <object class="GtkButton" id="memory_bottleneck_button">
                                 <property name="label" translatable="yes">Analyze Memory</property>
                                 <property name="visible">True</property>
                                 <property name="can-focus">True</property>
@@ -1653,6 +1641,49 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Sequential Program Run Command</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="speedup_sequential_entry">
+                            <property name="width-request">480</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="speedup_button">
+                            <property name="label" translatable="yes">Calculate Speedup</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">60</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="speedup_result_label">
+                            <property name="width-request">100</property>
+                            <property name="height-request">80</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="y">110</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">3</property>
