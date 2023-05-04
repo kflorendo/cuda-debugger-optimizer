@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define CONFIG_FILENAME "output/config.txt"
+#define CONFIG_FILENAME "scripts/output/config.txt"
 
 #define CONFIG_MAKE_ENTRY_ID "make_entry"
 #define CONFIG_RUN_ENTRY_ID "run_entry"
@@ -136,6 +136,8 @@ public:
 
 ThreadOverwriteColumns threadOverwriteColumns;
 Glib::RefPtr<Gtk::TreeStore> threadOverwriteTreeModel;
+
+std::string OUTPUT_FILE_PREFIX = "output/";
 
 class BreakpointColumns : public Gtk::TreeModel::ColumnRecord
 {
@@ -368,7 +370,7 @@ void get_thread_output() {
   treeView->set_model(threadOutputTreeModel);
 
   std::string line;
-  std::ifstream threadOutputFile("output/threadOutput.txt");
+  std::ifstream threadOutputFile(OUTPUT_FILE_PREFIX + "threadOutput.txt");
 
   while (threadOutputFile) {
     getline(threadOutputFile, line);
@@ -434,7 +436,7 @@ void get_thread_overwrite() {
   treeView->set_model(threadOverwriteTreeModel);
 
   std::string line;
-  std::ifstream threadOverwriteFile("output/threadOverwrite.txt");
+  std::ifstream threadOverwriteFile(OUTPUT_FILE_PREFIX + "threadOverwrite.txt");
 
   while (threadOverwriteFile) {
     getline(threadOverwriteFile, line);
@@ -505,7 +507,7 @@ void get_breakpoint() {
   treeView->set_model(breakpointTreeModel);
 
   std::string line;
-  std::ifstream breakpointFile("output/threadbp.txt");
+  std::ifstream breakpointFile(OUTPUT_FILE_PREFIX + "threadbp.txt");
 
   while (getline(breakpointFile, line)) {
     // split line by spaces
@@ -615,7 +617,7 @@ void optimize_config() {
   treeView->set_model(optimizeConfigTreeModel);
 
   std::string line;
-  std::ifstream optimizeConfigFile("output/optimizeConfig.txt");
+  std::ifstream optimizeConfigFile(OUTPUT_FILE_PREFIX + "optimizeConfig.txt");
   std::vector<OptimizeConfigResult> results;
   for (int config = 0; config < numConfigs; config++) {
     // get first line
@@ -683,37 +685,37 @@ void optimize_config() {
   // display graphs
   Gtk::Image* graphAllImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_ALL_IMAGE_ID, graphAllImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphAll = Gdk::Pixbuf::create_from_file("output/all.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphAll = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "all.png", 350, 350);
   graphAllImage->set(graphAll);
 
   Gtk::Image* graphGridXImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDX_IMAGE_ID, graphGridXImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridX = Gdk::Pixbuf::create_from_file("output/gridx.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridx.png", 350, 350);
   graphGridXImage->set(graphGridX);
 
   Gtk::Image* graphGridYImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDY_IMAGE_ID, graphGridYImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridY = Gdk::Pixbuf::create_from_file("output/gridy.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridy.png", 350, 350);
   graphGridYImage->set(graphGridY);
 
   Gtk::Image* graphGridZImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_GRIDZ_IMAGE_ID, graphGridZImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphGridZ = Gdk::Pixbuf::create_from_file("output/gridz.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphGridZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gridz.png", 350, 350);
   graphGridZImage->set(graphGridZ);
 
   Gtk::Image* graphBlockXImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKX_IMAGE_ID, graphBlockXImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockX = Gdk::Pixbuf::create_from_file("output/blockx.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockX = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockx.png", 350, 350);
   graphBlockXImage->set(graphBlockX);
 
   Gtk::Image* graphBlockYImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKY_IMAGE_ID, graphBlockYImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockY = Gdk::Pixbuf::create_from_file("output/blocky.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockY = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blocky.png", 350, 350);
   graphBlockYImage->set(graphBlockY);
 
   Gtk::Image* graphBlockZImage;
   refBuilder->get_widget(OPT_CONFIG_GRAPH_BLOCKZ_IMAGE_ID, graphBlockZImage);
-  Glib::RefPtr<Gdk::Pixbuf> graphBlockZ = Gdk::Pixbuf::create_from_file("output/blockz.png", 350, 350);
+  Glib::RefPtr<Gdk::Pixbuf> graphBlockZ = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "blockz.png", 350, 350);
   graphBlockZImage->set(graphBlockZ);
 }
 
@@ -723,7 +725,7 @@ void get_time_bottleneck_piechart() {
   refBuilder->get_widget(TIME_BOTTLENECK_PIECHART_IMAGE_ID, piechartImage);
 
   // display pie chart
-  Glib::RefPtr<Gdk::Pixbuf> piechart = Gdk::Pixbuf::create_from_file("output/gprofTime.png", 900, 900);
+  Glib::RefPtr<Gdk::Pixbuf> piechart = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "gprofTime.png", 900, 900);
   piechartImage->set(piechart);
 }
 
@@ -734,14 +736,14 @@ void get_time_bottleneck_timelines() {
   Gtk::Image* gpuTimelineImage;
   refBuilder->get_widget(TIME_BOTTLENECK_GPU_TIMELINE_IMAGE_ID, gpuTimelineImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> gpuTimeline = Gdk::Pixbuf::create_from_file("output/timeBottleneckGpuTimeline.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> gpuTimeline = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timeBottleneckGpuTimeline.png", 500, 500);
   gpuTimelineImage->set(gpuTimeline);
 
   // display api image
   Gtk::Image* apiTimelineImage;
   refBuilder->get_widget(TIME_BOTTLENECK_API_TIMELINE_IMAGE_ID, apiTimelineImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> apiTimeline = Gdk::Pixbuf::create_from_file("output/timeBottleneckApiTimeline.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> apiTimeline = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timeBottleneckApiTimeline.png", 500, 500);
   apiTimelineImage->set(apiTimeline);
 }
 
@@ -752,25 +754,25 @@ void get_memory_bottleneck() {
   Gtk::Image* timeStaticImage;
   refBuilder->get_widget(MEMORY_BOTTLENECK_STATIC_MEM_IMAGE_ID, timeStaticImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> timeStatic = Gdk::Pixbuf::create_from_file("output/timestat.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> timeStatic = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timestat.png", 500, 500);
   timeStaticImage->set(timeStatic);
 
   Gtk::Image* timeDynamicImage;
   refBuilder->get_widget(MEMORY_BOTTLENECK_DYNAMIC_MEM_IMAGE_ID, timeDynamicImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> timeDynamic = Gdk::Pixbuf::create_from_file("output/timedynam.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> timeDynamic = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timedynam.png", 500, 500);
   timeDynamicImage->set(timeDynamic);
 
   Gtk::Image* timeSizeImage;
   refBuilder->get_widget(MEMORY_BOTTLENECK_MEMORY_SIZE_IMAGE_ID, timeSizeImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> timeSize = Gdk::Pixbuf::create_from_file("output/timesize.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> timeSize = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timesize.png", 500, 500);
   timeSizeImage->set(timeSize);
 
   Gtk::Image* timeThroughputImage;
   refBuilder->get_widget(MEMORY_BOTTLENECK_THROUGHPUT_IMAGE_ID, timeThroughputImage);
 
-  Glib::RefPtr<Gdk::Pixbuf> timeThroughput = Gdk::Pixbuf::create_from_file("output/timethru.png", 500, 500);
+  Glib::RefPtr<Gdk::Pixbuf> timeThroughput = Gdk::Pixbuf::create_from_file(OUTPUT_FILE_PREFIX + "timethru.png", 500, 500);
   timeThroughputImage->set(timeThroughput);
 }
 
@@ -790,7 +792,7 @@ void get_speedup() {
   std::cout << "./speedup.sh -s " + sequentialRunCommand + " -p " + runConfig;
 
   std::string line;
-  std::ifstream speedupFile("output/speedup.txt");
+  std::ifstream speedupFile(OUTPUT_FILE_PREFIX + "speedup.txt");
   getline(speedupFile, line);
 
   Gtk::Label* speedupResult;

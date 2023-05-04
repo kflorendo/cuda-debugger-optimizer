@@ -231,7 +231,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="set_thread_output_line_button">
-                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="label" translatable="yes">Set to Cursor</property>
                             <property name="width-request">119</property>
                             <property name="height-request">34</property>
                             <property name="visible">True</property>
@@ -245,7 +245,7 @@
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">480</property>
+                            <property name="width-request">460</property>
                             <property name="height-request">550</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
@@ -268,7 +268,7 @@
                           <object class="GtkEntry" id="thread_output_value_type_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
                           </object>
                           <packing>
                             <property name="y">114</property>
@@ -348,7 +348,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="set_thread_overwrite_line_button">
-                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="label" translatable="yes">Set to Cursor</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
@@ -372,7 +372,7 @@
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">480</property>
+                            <property name="width-request">460</property>
                             <property name="height-request">550</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
@@ -395,7 +395,7 @@
                           <object class="GtkEntry" id="thread_overwrite_value_type_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="placeholder-text" translatable="yes">Type (int, string, float)</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
                           </object>
                           <packing>
                             <property name="y">114</property>
@@ -438,6 +438,70 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
+                        <child>
+                          <object class="GtkEntry" id="breakpoint_line_entry">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="breakpoint_line_entry_label">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Line</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="set_breakpoint_line_button">
+                            <property name="label" translatable="yes">Set to Cursor</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="x">174</property>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="breakpoint_button">
+                            <property name="label" translatable="yes">Record Threads At Breakpoint</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">60</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkScrolledWindow">
+                            <property name="width-request">470</property>
+                            <property name="height-request">680</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="shadow-type">in</property>
+                            <child>
+                              <object class="GtkTreeView" id="breakpoint_treeview">
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <child internal-child="selection">
+                                  <object class="GtkTreeSelection"/>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">110</property>
+                          </packing>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">2</property>
@@ -447,7 +511,7 @@
                       <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Memory</property>
+                        <property name="label" translatable="yes">Breakpoint</property>
                       </object>
                       <packing>
                         <property name="position">2</property>
@@ -1017,7 +1081,7 @@
                                 <child>
                                   <object class="GtkScrolledWindow">
                                     <property name="width-request">530</property>
-                                    <property name="height-request">700</property>
+                                    <property name="height-request">350</property>
                                     <property name="visible">True</property>
                                     <property name="can-focus">True</property>
                                     <property name="shadow-type">in</property>
@@ -1033,6 +1097,209 @@
                                   </object>
                                   <packing>
                                     <property name="y">50</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkNotebook">
+                                    <property name="width-request">530</property>
+                                    <property name="height-request">0</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_all_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">All</property>
+                                      </object>
+                                      <packing>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridx_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Grid X</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">1</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridy_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">2</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Grid Y</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">2</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_gridz_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">3</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Grid Z</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">3</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blockx_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">4</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Block X</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">4</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blocky_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">5</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Block Y</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">5</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <object class="GtkFixed">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <child>
+                                          <object class="GtkImage" id="config_graph_blockz_image">
+                                            <property name="width-request">100</property>
+                                            <property name="height-request">80</property>
+                                            <property name="visible">True</property>
+                                            <property name="can-focus">False</property>
+                                          </object>
+                                        </child>
+                                      </object>
+                                      <packing>
+                                        <property name="position">6</property>
+                                      </packing>
+                                    </child>
+                                    <child type="tab">
+                                      <object class="GtkLabel">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                        <property name="label" translatable="yes">Block Z</property>
+                                      </object>
+                                      <packing>
+                                        <property name="position">6</property>
+                                        <property name="tab-fill">False</property>
+                                      </packing>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="y">400</property>
                                   </packing>
                                 </child>
                               </object>
@@ -1071,83 +1338,123 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="margin-start">5</property>
-                        <property name="margin-end">5</property>
-                        <property name="margin-top">5</property>
-                        <property name="margin-bottom">5</property>
                         <child>
-                          <object class="GtkButton" id="thread_overwrite_button1">
-                            <property name="label" translatable="yes">Detect Thread Overwrite</property>
+                          <object class="GtkNotebook">
+                            <property name="width-request">1070</property>
+                            <property name="height-request">799</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-start">5</property>
+                                <property name="margin-end">5</property>
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
+                                <child>
+                                  <object class="GtkButton" id="time_bottleneck_piechart_button">
+                                    <property name="label" translatable="yes">Generate Pie Chart</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFixed">
+                                    <property name="width-request">1060</property>
+                                    <property name="height-request">700</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="time_bottleneck_piechart_image">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="y">40</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Gprof Pie Chart</property>
+                              </object>
+                              <packing>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="margin-start">5</property>
+                                <property name="margin-end">5</property>
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
+                                <child>
+                                  <object class="GtkButton" id="time_bottleneck_timeline_button">
+                                    <property name="label" translatable="yes">Generate Timelines</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">True</property>
+                                    <property name="receives-default">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkFixed">
+                                    <property name="width-request">530</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="time_bottleneck_gpu_timeline_image">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="y">40</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkFixed">
+                                    <property name="width-request">560</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <child>
+                                      <object class="GtkImage" id="time_bottleneck_api_timeline_image">
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">False</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="x">530</property>
+                                    <property name="y">40</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">GPU and CUDA API Timeline</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
                           </object>
-                          <packing>
-                            <property name="y">124</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="thread_overwrite_line_entry1">
-                            <property name="width-request">168</property>
-                            <property name="height-request">34</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                          </object>
-                          <packing>
-                            <property name="y">14</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="thread_overwrite_line_entry_label1">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Line</property>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="thread_overwrite_value_entry_label1">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Value</property>
-                          </object>
-                          <packing>
-                            <property name="y">60</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="thread_overwrite_value_entry1">
-                            <property name="width-request">168</property>
-                            <property name="height-request">34</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                          </object>
-                          <packing>
-                            <property name="y">74</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="set_thread_overwrite_line_button1">
-                            <property name="label" translatable="yes">Set to Selection</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
-                          </object>
-                          <packing>
-                            <property name="x">174</property>
-                            <property name="y">14</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkButton" id="set_thread_overwrite_value_button1">
-                            <property name="label" translatable="yes">Set to Selection</property>
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="receives-default">True</property>
-                          </object>
-                          <packing>
-                            <property name="x">174</property>
-                            <property name="y">74</property>
-                          </packing>
                         </child>
                       </object>
                       <packing>
@@ -1171,6 +1478,143 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <child>
+                          <object class="GtkNotebook">
+                            <property name="width-request">1090</property>
+                            <property name="height-request">750</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkImage" id="static_mem_image">
+                                    <property name="width-request">100</property>
+                                    <property name="height-request">80</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Static Memory</property>
+                              </object>
+                              <packing>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkImage" id="dynamic_mem_image">
+                                    <property name="width-request">100</property>
+                                    <property name="height-request">80</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Dynamic Memory</property>
+                              </object>
+                              <packing>
+                                <property name="position">1</property>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkImage" id="memory_size_image">
+                                    <property name="width-request">100</property>
+                                    <property name="height-request">80</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Memory Size</property>
+                              </object>
+                              <packing>
+                                <property name="position">2</property>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFixed">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkImage" id="throughput_image">
+                                    <property name="width-request">100</property>
+                                    <property name="height-request">80</property>
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child type="tab">
+                              <object class="GtkLabel">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Throughput</property>
+                              </object>
+                              <packing>
+                                <property name="position">3</property>
+                                <property name="tab-fill">False</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="y">50</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkFixed">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkButton" id="memory_bottleneck_button">
+                                <property name="label" translatable="yes">Analyze Memory</property>
+                                <property name="visible">True</property>
+                                <property name="can-focus">True</property>
+                                <property name="receives-default">True</property>
+                                <property name="margin-start">5</property>
+                                <property name="margin-end">5</property>
+                                <property name="margin-top">5</property>
+                                <property name="margin-bottom">5</property>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
                       </object>
                       <packing>
                         <property name="position">2</property>
@@ -1188,6 +1632,75 @@
                       </object>
                       <packing>
                         <property name="position">2</property>
+                        <property name="tab-fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkFixed">
+                        <property name="width-request">32</property>
+                        <property name="height-request">32</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Sequential Program Run Command</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="speedup_sequential_entry">
+                            <property name="width-request">480</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">14</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="speedup_button">
+                            <property name="label" translatable="yes">Calculate Speedup</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="receives-default">True</property>
+                          </object>
+                          <packing>
+                            <property name="y">60</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkLabel" id="speedup_result_label">
+                            <property name="width-request">100</property>
+                            <property name="height-request">80</property>
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="y">110</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="position">3</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">5</property>
+                        <property name="margin-end">5</property>
+                        <property name="margin-top">5</property>
+                        <property name="margin-bottom">5</property>
+                        <property name="label" translatable="yes">Speedup</property>
+                      </object>
+                      <packing>
+                        <property name="position">3</property>
                         <property name="tab-fill">False</property>
                       </packing>
                     </child>
