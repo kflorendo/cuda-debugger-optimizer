@@ -378,9 +378,7 @@ void get_thread_output() {
   std::string line;
   std::ifstream threadOutputFile(OUTPUT_FILE_PREFIX + "threadOutput.txt");
 
-  while (threadOutputFile) {
-    getline(threadOutputFile, line);
-
+  while (getline(threadOutputFile, line)) {
     std::istringstream lineStringStream(line);
     std::string token;
     auto row = *(threadOutputTreeModel->append());
@@ -913,7 +911,12 @@ void on_app_activate(bool test)
   try
   {
     // refBuilder->add_from_file("src/gui4.glade");
-    refBuilder = Gtk::Builder::create_from_file("src/gui.glade");
+    if (IS_TEST) {
+      refBuilder = Gtk::Builder::create_from_file("src/guiTest.glade");
+    } else {
+      refBuilder = Gtk::Builder::create_from_file("src/gui.glade");
+    }
+    
   }
   catch(const Glib::FileError& ex)
   {
@@ -958,7 +961,7 @@ void on_app_activate(bool test)
 
 int main(int argc, char** argv)
 {
-  bool test = true;
+  bool test = false;
   
   app = Gtk::Application::create("org.gtkmm.example");
 

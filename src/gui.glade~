@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.40.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="window">
@@ -36,7 +36,7 @@
                     <property name="can-focus">True</property>
                   </object>
                   <packing>
-                    <property name="y">14</property>
+                    <property name="y">20</property>
                   </packing>
                 </child>
                 <child>
@@ -63,7 +63,7 @@
                     <property name="can-focus">True</property>
                   </object>
                   <packing>
-                    <property name="y">74</property>
+                    <property name="y">80</property>
                   </packing>
                 </child>
                 <child>
@@ -83,7 +83,7 @@
                     <property name="can-focus">True</property>
                   </object>
                   <packing>
-                    <property name="y">134</property>
+                    <property name="y">140</property>
                   </packing>
                 </child>
                 <child>
@@ -116,9 +116,24 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
+                  <object class="GtkPaned">
+                    <property name="width-request">1260</property>
+                    <property name="height-request">840</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="position-set">True</property>
+                    <child>
+                      <placeholder/>
+                    </child>
+                    <child>
+                      <placeholder/>
+                    </child>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkScrolledWindow">
-                    <property name="width-request">600</property>
-                    <property name="height-request">800</property>
+                    <property name="width-request">510</property>
+                    <property name="height-request">840</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="shadow-type">in</property>
@@ -142,12 +157,12 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="x">600</property>
+                    <property name="x">760</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkNotebook">
-                    <property name="width-request">600</property>
+                    <property name="width-request">750</property>
                     <property name="height-request">800</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
@@ -158,6 +173,7 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="double-buffered">False</property>
                         <property name="margin-start">10</property>
                         <property name="margin-end">10</property>
                         <property name="margin-top">10</property>
@@ -183,7 +199,7 @@
                             <property name="can-focus">True</property>
                           </object>
                           <packing>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
                           </packing>
                         </child>
                         <child>
@@ -202,7 +218,7 @@
                             <property name="placeholder-text" translatable="yes">Variable or Expression</property>
                           </object>
                           <packing>
-                            <property name="y">74</property>
+                            <property name="y">80</property>
                           </packing>
                         </child>
                         <child>
@@ -226,7 +242,7 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">74</property>
+                            <property name="y">80</property>
                           </packing>
                         </child>
                         <child>
@@ -240,13 +256,23 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="thread_output_value_type_entry">
+                            <property name="visible">True</property>
+                            <property name="can-focus">True</property>
+                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
+                          </object>
+                          <packing>
+                            <property name="y">120</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">460</property>
-                            <property name="height-request">550</property>
+                            <property name="width-request">590</property>
+                            <property name="height-request">590</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
@@ -262,16 +288,6 @@
                           </object>
                           <packing>
                             <property name="y">220</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkEntry" id="thread_output_value_type_entry">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="placeholder-text" translatable="yes">Type (int, float)</property>
-                          </object>
-                          <packing>
-                            <property name="y">114</property>
                           </packing>
                         </child>
                       </object>
@@ -292,6 +308,8 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-left">10</property>
+                        <property name="margin-right">10</property>
                         <property name="margin-start">10</property>
                         <property name="margin-end">10</property>
                         <property name="margin-top">10</property>
@@ -315,7 +333,7 @@
                             <property name="can-focus">True</property>
                           </object>
                           <packing>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
                           </packing>
                         </child>
                         <child>
@@ -343,7 +361,7 @@
                             <property name="can-focus">True</property>
                           </object>
                           <packing>
-                            <property name="y">74</property>
+                            <property name="y">80</property>
                           </packing>
                         </child>
                         <child>
@@ -355,7 +373,7 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
                           </packing>
                         </child>
                         <child>
@@ -367,13 +385,13 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">74</property>
+                            <property name="y">80</property>
                           </packing>
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">460</property>
-                            <property name="height-request">550</property>
+                            <property name="width-request">590</property>
+                            <property name="height-request">590</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
@@ -398,7 +416,7 @@
                             <property name="placeholder-text" translatable="yes">Type (int, float)</property>
                           </object>
                           <packing>
-                            <property name="y">114</property>
+                            <property name="y">120</property>
                           </packing>
                         </child>
                         <child>
@@ -413,7 +431,7 @@
                           </object>
                           <packing>
                             <property name="x">176</property>
-                            <property name="y">122</property>
+                            <property name="y">125</property>
                           </packing>
                         </child>
                       </object>
@@ -438,17 +456,16 @@
                         <property name="height-request">32</property>
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="margin-start">5</property>
-                        <property name="margin-end">5</property>
-                        <property name="margin-top">5</property>
-                        <property name="margin-bottom">5</property>
+                        <property name="margin-left">10</property>
+                        <property name="margin-start">10</property>
+                        <property name="margin-top">10</property>
                         <child>
                           <object class="GtkEntry" id="breakpoint_line_entry">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                           </object>
                           <packing>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
                           </packing>
                         </child>
                         <child>
@@ -467,7 +484,7 @@
                           </object>
                           <packing>
                             <property name="x">174</property>
-                            <property name="y">14</property>
+                            <property name="y">20</property>
                           </packing>
                         </child>
                         <child>
@@ -483,8 +500,8 @@
                         </child>
                         <child>
                           <object class="GtkScrolledWindow">
-                            <property name="width-request">470</property>
-                            <property name="height-request">680</property>
+                            <property name="width-request">590</property>
+                            <property name="height-request">710</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="shadow-type">in</property>
@@ -1676,7 +1693,6 @@
                         <child>
                           <object class="GtkLabel" id="speedup_result_label">
                             <property name="width-request">100</property>
-                            <property name="height-request">80</property>
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
                           </object>
