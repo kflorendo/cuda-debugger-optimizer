@@ -432,7 +432,13 @@ void get_thread_overwrite() {
   refBuilder->get_widget(THREAD_OVERWRITE_IS_ARRAY_CHECKBOX_ID, threadOverwriteCheckButton);
   std::string isArrayInput = (threadOverwriteCheckButton->get_active()) ? "y" : "n";
 
-  std::cout << "./threadOverwrite.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + valueTypeInput + " -l " + lineInput + " -a " + isArrayInput << std::endl;
+  std::string scriptCmd = "./threadOverwrite.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + valueTypeInput + "\" -l \"" + lineInput + "\" -a \"" + isArrayInput + "\"";
+  std::cout << scriptCmd << std::endl;
+  if (IS_TEST) {
+    std::cout << scriptCmd << std::endl;
+  } else {
+    system(scriptCmd.c_str());
+  }
 
   // bash output => gui output
   threadOverwriteTreeModel = Gtk::TreeStore::create(threadOverwriteColumns);
