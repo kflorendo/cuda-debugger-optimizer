@@ -231,7 +231,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="set_thread_output_line_button">
-                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="label" translatable="yes">Set to Cursor</property>
                             <property name="width-request">119</property>
                             <property name="height-request">34</property>
                             <property name="visible">True</property>
@@ -348,7 +348,7 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="set_thread_overwrite_line_button">
-                            <property name="label" translatable="yes">Set to Selection</property>
+                            <property name="label" translatable="yes">Set to Cursor</property>
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
                             <property name="receives-default">True</property>
