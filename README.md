@@ -8,6 +8,10 @@ Main repository for 15418 final project, CUDA Debugger and Optimizer.
 
 * gtkmm: On Mac, install with `brew install gtkmm3`. On Ubuntu, install with `sudo apt-get install libgtkmm-3.0-dev`.
 * glade: On Mac, install with `brew install glade`.
+* nvidia-cuda-toolkit
+* python3
+* matplotlib
+* bc
 
 ## GUI
 
