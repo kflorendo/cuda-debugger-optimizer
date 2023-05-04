@@ -138,6 +138,7 @@ ThreadOverwriteColumns threadOverwriteColumns;
 Glib::RefPtr<Gtk::TreeStore> threadOverwriteTreeModel;
 
 std::string OUTPUT_FILE_PREFIX = "output/";
+bool IS_TEST = false;
 
 class BreakpointColumns : public Gtk::TreeModel::ColumnRecord
 {
@@ -359,7 +360,12 @@ void get_thread_output() {
   refBuilder->get_widget(THREAD_OUTPUT_LINE_ENTRY_ID, threadOutputLineEntry);
   std::string lineInput = threadOutputLineEntry->get_text();
 
-  std::cout << "./threadOutput.sh -m " + makeConfig + " -r " + runConfig + " -c " + cuConfig + " -v " + valueInput + " -t " + typeInput + " -l " + lineInput << std::endl;
+  std::string scriptCmd = "./scripts/threadOutput.sh -m \"" + makeConfig + "\" -r \"" + runConfig + "\" -c \"" + cuConfig + "\" -v \"" + valueInput + "\" -t \"" + typeInput + "\" -l " + lineInput;
+  if (IS_TEST) {
+    std::cout << scriptCmd << std::endl;
+  } else {
+    system(scriptCmd.c_str());
+  }
   
   // TODO: run ./threadOutput.sh -m makeConfig -r runConfig -c cuConfig -v valueInput -t typeInput -l lineInput
 
@@ -394,6 +400,7 @@ void get_thread_output() {
     row[threadOutputColumns.m_col_value] = token;
   }
 
+  treeView->remove_all_columns();
   treeView->append_column("Block X", threadOutputColumns.m_col_block_x);
   treeView->append_column("Block Y", threadOutputColumns.m_col_block_y);
   treeView->append_column("Block Z", threadOutputColumns.m_col_block_z);
@@ -475,6 +482,7 @@ void get_thread_overwrite() {
     }
   }
 
+  treeView->remove_all_columns();
   treeView->append_column("Address", threadOverwriteColumns.m_col_address);
   treeView->append_column("Block X", threadOverwriteColumns.m_col_block_x);
   treeView->append_column("Block Y", threadOverwriteColumns.m_col_block_y);
@@ -527,6 +535,7 @@ void get_breakpoint() {
     row[breakpointColumns.m_col_thread_z] = stoi(tokens[5]);
   }
 
+  treeView->remove_all_columns();
   treeView->append_column("Block X", breakpointColumns.m_col_block_x);
   treeView->append_column("Block Y", breakpointColumns.m_col_block_y);
   treeView->append_column("Block Z", breakpointColumns.m_col_block_z);
@@ -674,6 +683,7 @@ void optimize_config() {
     row[optimizeConfigColumns.m_col_time] = results[i].time;
   }
 
+  treeView->remove_all_columns();
   treeView->append_column("Grid X", optimizeConfigColumns.m_col_grid_x);
   treeView->append_column("Grid Y", optimizeConfigColumns.m_col_grid_y);
   treeView->append_column("Grid Z", optimizeConfigColumns.m_col_grid_z);
@@ -892,9 +902,12 @@ void init_optimize_page() {
   });
 }
 
-void on_app_activate()
+void on_app_activate(bool test)
 {
   std::cerr << "Activating" << std::endl;
+
+  IS_TEST = test;
+
   // Load the GtkBuilder file and instantiate its widgets:
   // refBuilder = Gtk::Builder::create();
   try
@@ -945,13 +958,15 @@ void on_app_activate()
 
 int main(int argc, char** argv)
 {
+  bool test = true;
+  
   app = Gtk::Application::create("org.gtkmm.example");
 
   // Instantiate a dialog when the application has been activated.
   // This can only be done after the application has been registered.
   // It's possible to call app->register_application() explicitly, but
   // usually it's easier to let app->run() do it for you.
-  app->signal_activate().connect([] () { on_app_activate(); });
+  app->signal_activate().connect([test] () { on_app_activate(test); });
 
   return app->run(argc, argv);
 }
